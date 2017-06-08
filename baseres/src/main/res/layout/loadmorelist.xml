@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <in.srain.cube.views.ptr.PtrClassicFrameLayout
+    android:id="@+id/load_more_list_view_ptr_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <in.srain.cube.views.loadmore.LoadMoreListViewContainer
+        android:id="@+id/load_more_list_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/myListView"
+        android:divider="@color/colorPrimaryDark"
+        android:dividerHeight="10dp"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:choiceMode="none"
+        android:cacheColorHint="@color/es_gr"
+        android:drawSelectorOnTop="false"
+        android:fastScrollEnabled="true"
+        android:listSelector="@color/es_bl"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:stackFromBottom="false"
+        android:textFilterEnabled="false"
+        android:transcriptMode="disabled"
+        android:addStatesFromChildren="false"
+        android:alwaysDrawnWithCache="true"
+        android:animateLayoutChanges="true"
+        android:clipChildren="false"
+        android:clipToPadding="true"
+        android:descendantFocusability="beforeDescendants"
+        android:persistentDrawingCache="none"
+        android:scrollbars="none"
+        android:fadeScrollbars="true"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="10dp"
+        >
+    </ListView>
+        </in.srain.cube.views.loadmore.LoadMoreListViewContainer>
+    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+</LinearLayout>
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical">-->
+    <!--<in.srain.cube.views.ptr.PtrClassicFrameLayout-->
+        <!--android:id="@+id/load_more_list_view_ptr_frame"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!--<in.srain.cube.views.loadmore.LoadMoreListViewContainer-->
+            <!--android:id="@+id/load_more_list_view_container"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="@color/cube_mints_white">-->
+            <!--<ListView-->
+                <!--android:id="@+id/load_more_listview"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--/>-->
+        <!--</in.srain.cube.views.loadmore.LoadMoreListViewContainer>-->
+    <!--</in.srain.cube.views.ptr.PtrClassicFrameLayout>-->
+<!--</LinearLayout>-->
+<!--
+LoadMoreListViewContainer控件，上拉加载，需要加入依赖
+ compile('in.srain.cube:cube-sdk:1.0.44')
+-->

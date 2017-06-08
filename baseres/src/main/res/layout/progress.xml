@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/es_b"
+    android:paddingLeft="@dimen/topic_view2"
+    android:paddingRight="@dimen/topic_view2">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/es_w"
+        android:paddingTop="@dimen/es_pitch12"
+        android:paddingBottom="@dimen/es_pitch16"
+        android:orientation="vertical">
+        <TextView android:id="@+id/dialog_text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/half_margin"
+            android:text="正在下载"
+            android:layout_marginBottom="4dip"
+            android:textColor="@color/es_gr"
+
+            android:textSize="@dimen/es_pitch18" />
+        <ProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="@dimen/text_radius"
+            android:progressDrawable="@drawable/custom_progressbar"
+            android:layout_margin="@dimen/half_margin" />
+        <TextView
+            android:id="@+id/loadDownProportion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/half_margin"
+            android:textColor="@color/es_gr"
+            android:textSize="@dimen/es_pitch14" />
+
+        <TextView
+            android:id="@+id/loadDownCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/half_margin"
+            android:background="@drawable/tv_origin_selector"
+            android:textColor="@color/es_w"
+            android:paddingBottom="@dimen/half_margin"
+            android:paddingLeft="@dimen/topic_view2"
+            android:paddingRight="@dimen/topic_view2"
+            android:paddingTop="@dimen/half_margin"
+            android:text="取消"
+            android:textSize="@dimen/es_pitch14" />
+    </LinearLayout>
+
+</LinearLayout>

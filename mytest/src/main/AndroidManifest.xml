@@ -1,0 +1,156 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="newhome.mytest">
+
+    <application         android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".Test">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="android.intent.action.9ji.VIEW"/>
+                <data android:scheme="@string/scheme" android:host="@string/host"/>
+                <data android:scheme="@string/scheme_http" android:host="@string/host" android:path="/test"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
+    <!--zxing扫码-->
+    <!--<activity android:name=".View.QRImage.NewMyZxingTest.testsacn.MainActivity">-->
+    <!--调用内部相机-->
+    <!--<activity android:name=".View.QRImage.OpenCamera">-->
+    <!--获取自定义相机测试-->
+    <!--<activity android:name=".View.QRImage.MyCamear.MyCameraTest">-->
+    <!--展示文件夹-->
+    <!--<activity android:name=".View.MyFolder.MyFolder">-->
+    <!--打开自定义相机，并获取拍照的图片-->
+    <!--<activity android:name=".View.QRImage.MyCamear.MyCamearTestOne">-->
+    <!--打开相册-->
+    <!--<activity android:name=".View.QRImage.OpenPhotoAlbum">-->
+    <!--打开自定义相机，并获取拍照的图片-->
+    <!--<activity android:name=".View.QRImage.MyPhoneAbl.MyDevicePhotoActivity">-->
+    <!--ViewTest-->
+    <!--<activity android:name=".MyViewTest.MyGridView">-->
+    <!--自定义多选相册-->
+    <!--<activity android:name=".View.QRImage.MyPhoneAbl.MyPhotoList">-->
+    <!--下拉加载更多-->
+    <!--<activity android:name=".MyViewTest.MyLoadMoreListView">-->
+    <!--ScrollableLayout  共享头部-->
+    <!--<activity android:name=".MyViewTest.MyScrollableLayout">-->
+    <!--ScrollableLayout  共享头部-->
+    <!--<activity android:name=".View.MyScrolllayout.MainActivity">-->
+    <!--ScrollableLayout  共享头部测试-->
+    <!--<activity android:name=".View.MyScrolllayout.MainActivity">-->
+    <!--streamFileSave-->
+    <!--<activity android:name=".MyViewTest.MyFileStreamSave">-->
+    <!--SharePreference-->
+    <!--<activity android:name=".MyViewTest.MySQLiteTest">-->
+    <!--网络请求http链接-->
+    <!--<activity android:name=".MyTool.HttpConnection.HttpURLConnectionTextView">-->
+    <!--网络请求，获取JSON数据-->
+    <!--<activity android:name=".MyTool.HttpConnection.JSON.GSONTestView">-->
+    <!--网络请求,使用回调，获取JSON数据-->
+    <!--<activity android:name=".MyTool.HttpConnection.JSON.JsonCallBackTestView">-->
+    <!--网络请求,使用OKHttp,使用回调，获取JSON数据-->
+    <!--<activity android:name=".MyTool.HttpConnection.JSON.UseOkHttpTestView">-->
+    <!--网络请求，使用泛型作为参数-->
+    <!--<activity android:name=".MyTool.HttpConnection.JSON.MyHttpUse">-->
+    <!--网络请求，获取网络图片，下载并显示-->
+    <!--<activity android:name=".MyTool.HttpConnection.JSON.HttpConnectionDownLoadeImage">-->
+    <!--beautiful dialog-->
+    <!--<activity android:name=".MyViewTest.UI.BeautifulDialog存在问题.SampleActivity">-->
+    <!--imageView 图片常用方法-->
+    <!--<activity android:name=".MyViewTest.Image.MyImageOne">-->
+    <!--本地广播监听-->
+    <!--<activity android:name=".MyTool.Broadcast.MyBroadcastLocal">-->
+    <!--多选照片-->
+    <!--<activity android:name=".MyTool.Image.ImageSelectMain">-->
+    <!--5.0新特性-->
+    <!--<activity android:name=".MyViewTest.NewFiveViewTest">-->
+    <!--下拉刷新SwipeToloadLayout-->
+    <!--<activity android:name=".MyViewTest.SwipeToLoadLayoutTestView">-->
+    <!--5.0新特性,布局测试-->
+    <!--<activity android:name=".MyViewTest.NewFiveViewTestOne">-->
+    <!--Bar测试-->
+    <!--<activity android:name=".MyViewTest.MyBarViewTest">-->
+    <!--webView JS 使用-->
+    <!--<activity android:name=".MyTool.WebViewJS.NewWebViewJS">-->
+    <!--自定义跑分控件-->
+    <!--<activity android:name=".MyTool.CustomView.ScoreActivity">-->
+<!--<intent-filter android:autoVerify="true">-->
+<!--<action android:name="android.intent.action.MAIN" />-->
+<!--<category android:name="android.intent.category.LAUNCHER" />-->
+<!--<category android:name="android.intent.category.DEFAULT"/>-->
+<!--<action android:name="android.intent.action.9ji.VIEW"/>-->
+<!--<data android:scheme="@string/scheme" android:host="@string/host"/>-->
+<!--<data android:scheme="@string/scheme_http" android:host="@string/host" android:path="/myView"/>-->
+<!--</intent-filter>-->
+    <!--</activity>-->
+<!--<activity-->
+<!--android:configChanges="orientation|keyboardHidden"-->
+<!--android:name=".View.QRImage.NewMyZxingTest.testsacn.MipcaActivityCapture"-->
+<!--android:screenOrientation="portrait"-->
+<!--android:theme="@android:style/Theme.NoTitleBar.Fullscreen"-->
+<!--android:windowSoftInputMode="stateAlwaysHidden" >-->
+<!--</activity>-->
+<!--<receiver android:name=".MyTool.Broadcast.MybroadcastReceiverMore">-->
+<!--<intent-filter>-->
+    <!--&lt;!&ndash;监听多种广播，只需要在下面注册&ndash;&gt;-->
+    <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
+<!--</intent-filter>-->
+<!--</receiver>-->
+<!--<receiver android:name=".MyTool.Broadcast.MyBroadcastReceiver">-->
+<!--<intent-filter>-->
+    <!--&lt;!&ndash;监听多种广播，只需要在下面注册,自定义广播&ndash;&gt;-->
+    <!--<action android:name="com.xinxue.LOCALBROADCAST" />-->
+<!--</intent-filter>-->
+<!--</receiver>-->
+
+    <!--&lt;!&ndash;<receiver android:name=".MyViewTest.Appwidget.ProcessWidgetReceiver">&ndash;&gt;-->
+    <!--&lt;!&ndash;<intent-filter>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;必须写的action 用于接收appwidget的更新广播&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;自定义广播接收&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<action android:name="com.xinxue.action.TYPE_BTN" />&ndash;&gt;-->
+    <!--&lt;!&ndash;</intent-filter>&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;下面配置必须写&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;<meta-data android:name="android.appwidget.provider"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:resource="@xml/xml" />　&ndash;&gt;-->
+    <!--&lt;!&ndash;&lt;!&ndash;// 这个是widget的布局文件&ndash;&gt;&ndash;&gt;-->
+    <!--&lt;!&ndash;</receiver>&ndash;&gt;-->
+
+<!--<receiver android:name=".MyViewTest.Appwidget.ProcessWidgetReceiverOne">-->
+<!--<intent-filter>-->
+    <!--&lt;!&ndash;必须写的action 用于接收appwidget的更新广播&ndash;&gt;-->
+    <!--<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+    <!--&lt;!&ndash;自定义广播接收&ndash;&gt;-->
+    <!--<action android:name="com.xinxue.action.TYPE_BTN" />-->
+    <!--<action android:name="com.xinxue.action.TYPE_List" />-->
+<!--</intent-filter>-->
+<!--&lt;!&ndash;下面配置必须写&ndash;&gt;-->
+<!--<meta-data android:name="android.appwidget.provider"-->
+    <!--android:resource="@xml/xmlone" />　-->
+<!--&lt;!&ndash;// 这个是widget的布局文件&ndash;&gt;-->
+<!--</receiver>-->
+
+<!--<service android:name=".MyViewTest.Appwidget.RemoteViewServicelmp"-->
+<!--android:permission="android.permission.BIND_REMOTEVIEWS"></service>-->
+    <!--&lt;!&ndash;qq&ndash;&gt;-->
+<!--<activity-->
+<!--android:name="com.tencent.tauth.AuthActivity"-->
+<!--android:noHistory="true"-->
+<!--android:launchMode="singleTask" >-->
+<!--<intent-filter>-->
+    <!--<action android:name="android.intent.action.VIEW" />-->
+    <!--<category android:name="android.intent.category.DEFAULT" />-->
+    <!--<category android:name="android.intent.category.BROWSABLE" />-->
+    <!--<data android:scheme="1103434585" />-->
+<!--</intent-filter>-->
+<!--</activity>-->
+<!--<activity-->
+<!--android:name="com.tencent.connect.common.AssistActivity"-->
+<!--android:theme="@android:style/Theme.Translucent.NoTitleBar"-->
+<!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+    <!--/>-->

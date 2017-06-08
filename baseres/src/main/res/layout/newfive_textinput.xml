@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<android.support.design.widget.TextInputLayout
+    android:id="@+id/usernameWrapper"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:hintTextAppearance="@style/FloatingStyle">
+    <edittext android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="Username"/>
+</android.support.design.widget.TextInputLayout>
+</LinearLayout>
+    <!--app:hintTextAppearance=”@style/FloatingStyle” 用于设置floating字体的样式。-->
+    <!--TextInputLayout可以使用setError()方法在输入框下方显示错误信息，用途类似EditText的setError()。同样的，在xml中可以使用app:errorTextAppearance来设置错误信息的字体样式。-->
+    <!--TextInputLayout需要注意的几点：1、TextInputLayout不能单独使用，必须和EditText嵌套使用。-->
+    <!--2、 1个TextInputLayout只能包1个EditTExt。-->
+    <!--1、setHint();设置提示语-->
+    <!--2、setError();设置错误显示信息-->
+    <!--3、setErrorEnabled();设置错误信息是否显示。true显示，false不显示。-->
+    <!--4、getEditText();得到EditText的控件实例。-->

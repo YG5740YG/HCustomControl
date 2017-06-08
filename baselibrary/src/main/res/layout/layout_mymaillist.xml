@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/es_w">
+    <EditText
+        android:id="@+id/et_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/es_w"
+        android:padding="@dimen/half_margin"
+        android:scrollbars="vertical"
+        android:textSize="@dimen/es_pitch14"
+        android:inputType="number"
+        android:maxEms="11"
+        android:maxLength="11"
+        android:textColor="@color/es_r"
+        android:text="gggg"
+        />
+    <ImageView
+        android:id="@+id/iv_contancts"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="@dimen/base_margin"
+        android:src="@mipmap/topic_mailist"
+        android:layout_gravity="center"
+        android:layout_toRightOf="@+id/et_phone"/>
+</LinearLayout>

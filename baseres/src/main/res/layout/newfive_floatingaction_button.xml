@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<android.support.design.widget.FloatingActionButton
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@mipmap/icon_scan"
+    android:elevation="6dp"
+    app:pressedTranslationZ="12dp"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentBottom="true"
+    />
+</RelativeLayout>
+
+    <!--按下的颜色是 rippleColor-->
+    <!--填充色是 backgroundTint-->
+    <!--注：colorAccent 对应EditText编辑时、RadioButton选中、CheckBox等选中时的颜色。-->
+<!--elevation和pressedTranslationZ，前者用户设置正常显示的阴影大小；后者是点击时显示的阴影大小。-->
+<!--
+5.x存在的一些问题
+
+在5.x的设备上运行，你会发现一些问题（测试系统5.0）：
+
+木有阴影
+添加属性 app:borderWidth="0dp"
+对于5.x设置一个合理的margin,整体如下:
+ <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        app:borderWidth="0dp"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_headset" />
+
+        values
+<dimen name="fab_margin">0dp</dimen>
+values-v21
+ <dimen name="fab_margin">16dp</dimen>
+-->

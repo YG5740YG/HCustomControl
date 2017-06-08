@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="1000dp">
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/myListView"
+        android:divider="@color/colorPrimaryDark"
+        android:dividerHeight="10dp"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:choiceMode="none"
+        android:cacheColorHint="@color/es_gr"
+        android:drawSelectorOnTop="false"
+        android:fastScrollEnabled="true"
+        android:listSelector="@color/es_bl"
+        android:scrollingCache="true"
+        android:smoothScrollbar="true"
+        android:stackFromBottom="false"
+        android:textFilterEnabled="false"
+        android:transcriptMode="disabled"
+        android:addStatesFromChildren="false"
+        android:alwaysDrawnWithCache="true"
+        android:animateLayoutChanges="true"
+        android:clipChildren="false"
+        android:clipToPadding="true"
+        android:descendantFocusability="beforeDescendants"
+        android:persistentDrawingCache="none"
+        android:scrollbars="none"
+        android:fadeScrollbars="true"
+        android:fadingEdge="none"
+        android:fadingEdgeLength="10dp"
+        >
+    </ListView>
+    </ScrollView>
+</LinearLayout>
+<!--如果加入ScrollView，则listView只显示1行，需要自定义listView的高度-->
+<!--
+ android:layoutAnimation="@anim/activity_open"
+-->
+<!--
+   1.ListView的XML属性
+   android:divider//在列表条目之间显示的drawable或color
+   android:dividerHeight//用来指定divider的高度
+   android:divider="@drawable/@null" 不想显示分割线
+   android:entries//构成ListView的数组资源的引用。对于某些固定的资源，这个属性提供了比在程序中添加资源更加简便的方式
+   android:footerDividersEnabled//当设为false时，ListView将不会在各个footer之间绘制divider.默认为true。
+   android:headerDividersEnabled//当设为false时，ListView将不会在各个header之间绘制divider.默认为true。
+   2.继承自AbsListView的XML属性
+   android:choiceMode//为视图指定选择的行为。可选的类型有：none、singleChoice、multipleChoice、multipleChoiceModal。
+   android:cacheColorHint// 表明这个列表的背景始终以单一、固定的颜色绘制，可以优化绘制过程。
+   android:drawSelectorOnTop// 若设为true，选择器将绘制在选中条目的上层。默认为false。点击某一条记录，颜色会显示在最上面，记录上的文字被遮住，所以点击文字不放，文字就看不到,为false点击某条记录不放，颜色会在记录的后面，成为背景色，但是记录内容的文字是可见的
+   android:faseScrollEnabled// 设置是否允许使用快速滚动滑块。
+   android:listSelector// 设置选中项显示的可绘制对象，可以是图片或者颜色属性。
+   android:scrollingCache// 设置在滚动时是否使用绘制缓存。若设为true，则将使滚动表现更快速，但会占用更内存。默认为true。
+   android:smoothScrollbar// 为真时，列表会使用更精确的基于条目在屏幕上的可见像素高度的计算方法。默认该属性为真，如果你的适配器需要绘制可变高的条目，他应该设为假。当该属性为真时，你在适配器在显示变高条目时，滚动条的把手会在滚动的过程中改变大小。当设为假时，列表只使用适配器中的条目数和屏幕上的可见条目来决定滚动条的属性。
+   android:stackFromBottom// 设置GridView和ListView是否将内容从底部开始显示。
+   android:textFilterEnabled// 当设为真时，列表会将结果过滤为用户类型。前提是这个列表的Adapter必须支持Filterable接口。
+   android:transcriptMode//设置列表的transcriptMode. 用ListView或者其它显示大量Items的控件实时跟踪或者查看信息,希望最新的条目可以自动滚动到可视范围内。通过设置的控件transcriptMode属性可以将Android平台的控件（支持ScrollBar）自动滑动到最底部。有如下选项可选：
+//(1)disabled          禁用TranscriptMode，也是默认值;
+//(2)normal             当新条目添加进列表中并且已经准备好显示的时候，列表会自动滑动到底部以显示最新条目;
+//(3)alwaysScroll   列表会自动滑动到底部，无论新条目是否已经准备好显示.
+   3.继承自ViewGroup的XML属性
+   android:addStatesFromChildren// 设置这个ViewGroup的drawable状态是否包括子View的状态。若设为true，当子View如EditText或Button获得焦点时，整个ViewGroup也会获得焦点。
+   android:alwaysDrawnWithCache// 设置ViewGroup在绘制子View时是否一直使用绘图缓存。默认为true。
+   android:animationCache// 设置布局在绘制动画效果时是否为其子View创建绘图缓存。若设为true，将会消耗更多的内存，要求持续时间更久的初始化过程，但表现更好。默认为true。
+   android:clipChildren// 设置子View是否受限于在自己的边界内绘制。若设为false,当子View所占用的空间大于边界时可以绘制在边界外。默认为true。
+   android:clipToPadding//定义布局间是否有间距。默认为true。
+   android:descendantFocusability// 定义当寻找一个焦点View的时候，ViewGroup与其子View之间的关系。可选项为：
+//(1)beforeDescendants       ViewGroup会比其子View更先获得焦点;
+//(2)afterDescendants           只有当无子View想要获取焦点时，ViewGroup才会获取焦点;
+//(3)blockDescendants         ViewGroup会阻止子View获取焦点
+   android:layoutAnimation//定义当ViewGroup第一次展开时的动画效果，也可人为地在第一次展开后调用。
+   android:persistentDrawingCache// 定义绘图缓存的持久性。有如下可选项：
+//(1)none                    当使用过后不保留绘图缓存
+//(2)animation    在layout animation之后保留绘图缓存
+//(3)scrolling    在Scroll操作后保留绘图缓存
+//(4)all     always保留绘图缓存
+
+ android:scrollbars="none" setVerticalScrollBarEnabled(true); 隐藏listView的滚动条
+ android:fadingEdge="none" 去掉上边和下边黑色的阴影
+  android:fadingEdgeLength 设置阴影部分长度
+  android:fadeScrollbars="true" 设置为true就可以实现滚动条的自动隐藏和显示
+
+listView设置背景色android:background="@drawable/bg"，拖动或者点击list空白位置的时候发现ListItem都变成黑色。 因为默认的ListItem背景是透明的，而ListView的背景是固定不变的，所以在滚动条滚动的过程中如果实时地去将当前每个Item的显示内容跟背景进行混合运算，所以android系统为了优化这个过程用，就使用了一个叫做android:cacheColorHint的属性，在黑色主题下默认的颜色值是#191919，所以就出现了刚才的画面，有一半是黑色的。
+
+如果你只是换背景的颜色的话，可以直接指定android:cacheColorHint为你所要的颜色；如果你是用图片做背景的话，那也只要将android:cacheColorHint指定为透明（#00000000）就可以了，当然为了美化是要牺牲一些效率的。
+
+
+
+
+
+
+-->

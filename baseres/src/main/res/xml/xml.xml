@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/widget_layout"
+    android:minHeight="300dp"
+    android:minResizeHeight="90dp"
+    android:minResizeWidth="190dp"
+    android:resizeMode="horizontal|vertical"
+    android:minWidth="200dp"
+    >
+</appwidget-provider>
+<!--android:configure="newhome.myviwe.MyViewTest.Image.MyImageOne"-->
+<!--第一次放置到桌面上时，需要打开的activity-->
+<!--android:previewImage="@mipmap/ic_pro_addr"-->
+<!--在手机中显示窗口小程序的图标-->
+<!--android:widgetCategory="home_screen"-->
+<!--默认值，在homt-screen上面是显示-->
+<!-- android:widgetCategory="keyguard"-->
+<!--在锁屏的时候显示-->
+<!--android:widgetCategory="searchbox"-->
+<!--在搜索页面添加-->
+    <!--android:updatePeriodMillis="10000"-->
+<!--自动更新的时间，最少为半小时-->
+<!--桌面小控件-->
+<!---->

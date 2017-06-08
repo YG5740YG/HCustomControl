@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:id="@+id/edit_text"
+        android:text="这是一个EditText"
+        android:imeOptions="actionUnspecified"
+        />
+    <newhome.myviwe.MyTool.CustomView.CleanEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cleanedit"/>
+    <!--
+     android:hint="text"
+        android:maxLength="40"
+        android:textColorHint="@color/es_r"
+        android:enabled="false"
+        android:password="true"
+        android:phoneNumber="true"
+        android:numeric="decimal"
+        android:inputType="phone"
+    -->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:imeOptions="actionSearch"
+        android:id="@+id/edit_text_search"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取值"
+        android:id="@+id/btn_get_value"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="全选"
+        android:id="@+id/btn_all"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="从第二个字符开始选择"
+        android:id="@+id/btn_select"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取选中文本"
+        android:id="@+id/btn_get_select"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="简单描述一下你的宝贝特征吧......"
+            android:lines="4"
+            android:gravity="top"
+            android:paddingRight="@dimen/half_margin"
+            android:paddingLeft="@dimen/half_margin"
+            android:paddingTop="@dimen/half_margin"
+            android:paddingBottom="25dp"
+            android:maxLength="200"
+            android:background="@drawable/bg_bord_gray_s"
+            android:layout_marginTop="@dimen/half_margin"
+            android:id="@+id/product_describle"
+            android:scrollbars="vertical"
+            android:textColorHint="@color/es_gr"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/half_margin"
+            android:text="还最多可以输入200字"
+            android:layout_marginRight="@dimen/half_margin"
+            android:layout_gravity="bottom|right"
+            android:id="@+id/txt_number"/>
+    </FrameLayout>
+    <!--
+    EditView部分属性
+    android:enabled="false"可以实现不可编辑，可以获得焦点。这时候我们看到EditText和一个TextView差不多： 
+    html中Textarea的文本域。在Android中没有专门的文本域组件，但是可以通过设置EditText的高来实现同样的文本域功能。
+    密码文本框。密码输入也是Android应用常用的功能，通过配置EditText的android:password="true"就可以实现这一密码输入功能
+    通过设置android:phoneNumber="true"就可以把EditText变成只接受电话号码输入的文本框，连软键盘都已经变成拨号专用软键盘了，所以不用再担心输入其他字符了
+    有时候我们只想输入数字，不想输入字母，EditText为我们提供了android:numeric来控制输入的数字类型，一共有三种分别为integer（正整数）、signed（带符号整数）和decimal(浮点数)。这里以signed类型的为例
+    通过android:inputType来设置文本的类型，让输入法选择合适的软键盘的
+    在一个搜索中，我们输入要搜索的文本，然后按Enter表示要去搜索了，但是默认的Enter键显示的是“完成”文本，看着不太合适，不符合搜索的语义，如果能显示“搜索”两个字或者显示一个表示搜索的图标多好。事实证明我们的想法是合理的，Android也为我们提供的这样的功能。通过设置android:imeOptions来改变默认的“完成”文本
+    actionUnspecified  未指定，对应常量EditorInfo.IME_ACTION_UNSPECIFIED
+    actionNone 没有动作,对应常量EditorInfo.IME_ACTION_NONE
+    actionGo 去往，对应常量EditorInfo.IME_ACTION_GO
+    actionSearch 搜索，对应常量EditorInfo.IME_ACTION_SEARCH
+    actionSend 发送，对应常量EditorInfo.IME_ACTION_SEND
+    actionNext 下一个，对应常量EditorInfo.IME_ACTION_NEXT
+    actionDone 完成，对应常量EditorInfo.IME_ACTION_DONE
+    inputType：
+　　　　text：文本格式
+　　　　textPassword：密码格式
+　　　　number：数字格式
+　　　　textMultiLink：地址栏格式
+    -->
+</LinearLayout>

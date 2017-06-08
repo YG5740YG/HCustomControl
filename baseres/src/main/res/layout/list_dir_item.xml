@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/es_pitch4" >
+
+    <ImageView
+        android:id="@+id/id_dir_item_image"
+        android:layout_width="@dimen/topic_view4"
+        android:layout_height="@dimen/topic_view4"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:background="@mipmap/pic_dir"
+        android:paddingBottom="@dimen/es_pitch16"
+        android:paddingLeft="@dimen/es_pitch12"
+        android:paddingRight="@dimen/es_pitch12"
+        android:paddingTop="@dimen/es_pitch10"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_lanher" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/es_pitch10"
+        android:layout_toRightOf="@id/id_dir_item_image"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/id_dir_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所有图片"
+            android:textSize="@dimen/es_font10" />
+
+        <TextView
+            android:id="@+id/id_dir_item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="4723张"
+            android:textColor="@color/es_gr"
+            android:textSize="@dimen/es_font10" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/es_pitch20"
+        android:src="@mipmap/dir_choose" />
+
+</RelativeLayout>

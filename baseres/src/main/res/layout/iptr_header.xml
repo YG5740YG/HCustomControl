@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refresh_shell"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/default_bg">
+    <RelativeLayout
+        android:id="@+id/refresh_content"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="3dp">
+            <ImageView
+                android:id="@+id/pull_to_refresh_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:background="@mipmap/resh4"
+                android:visibility="visible" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    >
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardBackgroundColor="@android:color/white"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="24dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingTop="@dimen/activity_vertical_margin" >
+
+
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/make_zan"
+                android:layout_centerHorizontal="true"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/text_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/img"
+                android:layout_centerHorizontal="true"
+                android:text="This is a card view"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+    <SeekBar
+        android:layout_below="@+id/card_view"
+        android:id="@+id/seek1"
+        android:layout_marginTop="10dp"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        />
+    <SeekBar
+        android:layout_below="@+id/seek1"
+        android:id="@+id/seek2"
+        android:layout_marginTop="10dp"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        />
+</RelativeLayout>
+<!--
+cardView5.0以后的新特性：
+使用需要依赖：
+ compile 'com.android.support:cardview-v7:25.1.0'
+
+card_view:cardCornerRadius="10dp"  圆角的半径
+        card_view:cardElevation="24dp"         阴影shadow
+        CardView_cardBackgroundColor 设置背景色
+CardView_cardCornerRadius 设置圆角大小
+CardView_cardElevation 设置z轴阴影
+CardView_cardMaxElevation 设置z轴最大高度值
+CardView_cardUseCompatPadding 是否使用CompadPadding,设置内边距
+CardView_cardPreventCornerOverlap 是否使用PreventCornerOverlap
+CardView_contentPadding 内容的padding
+CardView_contentPaddingLeft 内容的左padding
+CardView_contentPaddingTop 内容的上padding
+CardView_contentPaddingRight 内容的右padding
+CardView_contentPaddingBottom 内容的底padding
+        -->
+<!--
+<resources>
+    <declare-styleable name="CardView">
+        - Background color for CardView. -->
+    <!-- 背景色 -->
+<!--<attr name="cardBackgroundColor" format="color" />-->
+    <!--&lt;!&ndash; Corner radius for CardView. &ndash;&gt;-->
+    <!--&lt;!&ndash; 边缘弧度数 &ndash;&gt;-->
+<!--<attr name="cardCornerRadius" format="dimension" />-->
+    <!--&lt;!&ndash; Elevation for CardView. &ndash;&gt;-->
+    <!--&lt;!&ndash; 高度 &ndash;&gt;-->
+<!--<attr name="cardElevation" format="dimension" />-->
+    <!--&lt;!&ndash; Maximum Elevation for CardView. &ndash;&gt;-->
+    <!--&lt;!&ndash; 最大高度 &ndash;&gt;-->
+<!--<attr name="cardMaxElevation" format="dimension" />-->
+    <!--&lt;!&ndash; Add padding in API v21+ as well to have the same measurements with previous versions. &ndash;&gt;-->
+    <!--&lt;!&ndash; 设置内边距，v21+的版本和之前的版本仍旧具有一样的计算方式 &ndash;&gt;-->
+<!--<attr name="cardUseCompatPadding" format="boolean" />-->
+    <!--&lt;!&ndash; Add padding to CardView on v20 and before to prevent intersections between the Card content and rounded corners. &ndash;&gt;-->
+    <!--&lt;!&ndash; 在v20和之前的版本中添加内边距，这个属性是为了防止卡片内容和边角的重叠 &ndash;&gt;-->
+<!--<attr name="cardPreventCornerOverlap" format="boolean" />-->
+    <!--&lt;!&ndash; 下面是卡片边界距离内部的距离&ndash;&gt;-->
+    <!--&lt;!&ndash; Inner padding between the edges of the Card and children of the CardView. &ndash;&gt;-->
+<!--<attr name="contentPadding" format="dimension" />-->
+    <!--&lt;!&ndash; Inner padding between the left edge of the Card and children of the CardView. &ndash;&gt;-->
+<!--<attr name="contentPaddingLeft" format="dimension" />-->
+    <!--&lt;!&ndash; Inner padding between the right edge of the Card and children of the CardView. &ndash;&gt;-->
+<!--<attr name="contentPaddingRight" format="dimension" />-->
+    <!--&lt;!&ndash; Inner padding between the top edge of the Card and children of the CardView. &ndash;&gt;-->
+<!--<attr name="contentPaddingTop" format="dimension" />-->
+    <!--&lt;!&ndash; Inner padding between the bottom edge of the Card and children of the CardView. &ndash;&gt;-->
+<!--<attr name="contentPaddingBottom" format="dimension" />-->
+    <!--</declare-styleable>-->
+    <!--</resources>-->

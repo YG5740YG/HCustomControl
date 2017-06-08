@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/loading"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:padding="10dp">
+    <newhome.myviwe.View.MDToolbar
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/toolbar">
+        </newhome.myviwe.View.MDToolbar>
+<com.aspsine.swipetoloadlayout.SwipeToLoadLayout
+    android:id="@+id/swipeToLoad"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@+id/toolbar">
+    <newhome.myviwe.MyTool.Refresh.CustomRefreshHeadView
+        android:id="@+id/swipe_refresh_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="20dp" />
+    <TextView
+        android:id="@+id/swipe_target"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="Hello World!" />
+    <newhome.myviwe.MyTool.Refresh.CustomRefreshFooterView
+        android:id="@+id/swipe_load_more_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
+    </RelativeLayout>
+<!--    /*
+    注意，swipetoloadlayout中布局包裹的View id是指定的，不能乱改，否则找不到<item name="swipe_target" type="id" />刷新目标
+<item name="swipe_refresh_header" type="id" />刷新头部
+<item name="swipe_load_more_footer" type="id" />刷新尾部
+     */-->
