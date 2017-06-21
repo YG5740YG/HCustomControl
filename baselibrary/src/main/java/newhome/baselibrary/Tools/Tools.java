@@ -4,12 +4,15 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.LauncherActivity;
+import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -58,6 +61,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.widget.EditText;
@@ -78,20 +82,27 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.TimeZone;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import MyView.MyDialog;
+import newhome.baselibrary.Activity.MyScrollLayout.MainActivity;
 import newhome.baselibrary.R;
 import rx.functions.Action1;
 
@@ -119,6 +130,18 @@ public class Tools {
             e.printStackTrace();
         }
         return versionCode;
+    }
+
+    public static void getVersionInfo(Context context) {
+        try {
+            String pkName = context.getPackageName();
+            String versionName = context.getPackageManager().getPackageInfo(
+                    pkName, 0).versionName;
+            int versionCode = context.getPackageManager()
+                    .getPackageInfo(pkName, 0).versionCode;
+            Logs.Debug("ggg================" + pkName + " ==  " + versionName + " == " + versionCode);
+        } catch (Exception e) {
+        }
     }
 
     public static String currentVersion(Context context, String appPackage) {
@@ -185,7 +208,7 @@ public class Tools {
 
     /**
      * 整形转字符串
-     * */
+     */
     public static String int2string(int s) {
         try {
             return Integer.toString(s);
@@ -197,7 +220,7 @@ public class Tools {
 
     /**
      * 字符串转整形
-     * */
+     */
     public static int string2int(String s, int defvalue) {
         try {
             return Integer.parseInt(s);
@@ -209,7 +232,7 @@ public class Tools {
 
     /**
      * 双精度转字符串
-     * */
+     */
     public static String double2string(double s) {
         try {
             return Double.toString(s);
@@ -221,7 +244,7 @@ public class Tools {
 
     /**
      * 字符串 转双精度
-     * */
+     */
     public static double string2double(String s, double defvalue) {
         try {
             return Double.parseDouble(s);
@@ -233,7 +256,7 @@ public class Tools {
 
     /**
      * object转整形
-     * */
+     */
     public static int obj2int(Object s, int defvalue) {
         try {
             return Integer.parseInt(s.toString());
@@ -245,7 +268,7 @@ public class Tools {
 
     /**
      * object转双精度
-     * */
+     */
     public static double obj2double(Object s, double defvalue) {
         try {
             return Double.parseDouble(s.toString());
@@ -257,7 +280,7 @@ public class Tools {
 
     /**
      * object转string
-     * */
+     */
     public static String obj2string(Object s, String defvalue) {
         try {
             return s.toString();
@@ -269,7 +292,7 @@ public class Tools {
 
     /**
      * 数字保留小数点后两位
-     * */
+     */
     public static String valueFormat(Object price) {
         try {
             double dou = string2double(price.toString(), 0);
@@ -311,7 +334,7 @@ public class Tools {
 
     /**
      * 不保留小数点
-     * */
+     */
     public static String noPointFormat(Object price) {
         try {
             double dou = string2double(price.toString(), 0);
@@ -329,6 +352,7 @@ public class Tools {
 
     /**
      * 把字符串转为字符数组/
+     *
      * @param str
      * @return
      */
@@ -372,21 +396,21 @@ public class Tools {
 
     /**
      * 明文转url编码
-     * */
+     */
     public static String encode(String strRes) {
         return URLEncoder.encode(strRes);
     }
 
     /**
      * 将url编码转明文
-     * */
+     */
     public static String decode(String strRes) {
         return URLDecoder.decode(strRes);
     }
 
     /**
      * 验证是否为邮箱
-     * */
+     */
     public static boolean isEmail(String str) {
         Pattern pattern = Pattern
                 .compile("^([a-z0-9A-Z]+[-|_|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$");
@@ -412,7 +436,7 @@ public class Tools {
 
     /**
      * 验证是否为固定电话
-     * */
+     */
     public static boolean isPhone(String str) {
         Pattern pattern = Pattern.compile("^(\\d{4}|\\d{3}|\\d{2}|\\d{0})-?\\d{7,8}$");
         return pattern.matcher(str).matches();
@@ -420,7 +444,7 @@ public class Tools {
 
     /**
      * 验证是否为邮编
-     * */
+     */
     public static boolean isPostCode(String str) {
         Pattern pattern = Pattern.compile("^[1-9]\\d{5}$");
         return pattern.matcher(str).matches();
@@ -429,11 +453,12 @@ public class Tools {
 
     /**
      * 设置cookie
+     *
      * @param context
      * @param url
      * @param t
      */
-    public static void setCookie(Context context,String url,String t){
+    public static void setCookie(Context context, String url, String t) {
         CookieSyncManager.createInstance(context);
         CookieManager cookieManager = CookieManager.getInstance();
         cookieManager.setAcceptCookie(true);
@@ -463,6 +488,7 @@ public class Tools {
         }
         return isChina;
     }
+
     //判断是否为飞行模式
     public boolean AirplaneMode(Context context) {
         boolean isEnabled = Settings.System.getInt(
@@ -512,8 +538,9 @@ public class Tools {
 
     /**
      * 获取当前网络状态
+     *
      * @return 1:无线网  2：手机网络   3：无网络连接
-     * */
+     */
     public static int getNetState(Context context) {
         NetworkInfo.State wifiState = null;
         NetworkInfo.State mobileState = null;
@@ -552,29 +579,30 @@ public class Tools {
         return ((mgrConn.getActiveNetworkInfo() != null && mgrConn.getActiveNetworkInfo().getState() == NetworkInfo.State.CONNECTED)
                 || mgrTel.getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS);
     }
+
     //四、判断是否是3G网络
     public static boolean is3rd(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkINfo = cm.getActiveNetworkInfo();
-        if (networkINfo != null && networkINfo.getType() == ConnectivityManager.TYPE_MOBILE)
-        {
+        if (networkINfo != null && networkINfo.getType() == ConnectivityManager.TYPE_MOBILE) {
             return true;
         }
         return false;
     }
+
     //五、判断是wifi还是3g网络,用户的体现性在这里了，wifi就可以建议下载或者在线播放。
     public static boolean isWifi(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkINfo = cm.getActiveNetworkInfo();
-        if (networkINfo != null && networkINfo.getType() == ConnectivityManager.TYPE_WIFI)
-        {
+        if (networkINfo != null && networkINfo.getType() == ConnectivityManager.TYPE_WIFI) {
             return true;
         }
         return false;
     }
+
     /**
      * 匹配用户名：只能为数字、字母或者汉字,4-20
-     * */
+     */
     public static boolean CheckUsername(String str) {
 //			^[0-9a-zA-Z\u4e00-\u9fa5]{4,20}$
 //			^[a-zA-Z|\\d|\\u0391-\\uFFE5]*$
@@ -585,7 +613,7 @@ public class Tools {
 
     /**
      * 匹用户名长度
-     * */
+     */
     public static boolean CheckUsernameLength(String str) {
 
         if (str.length() < 4 || str.length() > 20) {
@@ -596,59 +624,67 @@ public class Tools {
         }
     }
 
-    public static String getNowTime(){
+    public static String getNowTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         long date = new Date().getTime();
         return sdf.format(date);
     }
-    public static String getNowtime(){
-        return new Date().getTime() +"";
+
+    public static String getNowtime() {
+        return new Date().getTime() + "";
     }
+
     /**
      * 获取时间毫秒
-     * @param format   时间格式如“yyyy-MM-dd HH:mm:ss”
-     * @param data  相应的时间  2017-4-2 0:00:00
+     *
+     * @param format 时间格式如“yyyy-MM-dd HH:mm:ss”
+     * @param data   相应的时间  2017-4-2 0:00:00
      * @return
      */
-    public long gettiemMS(String format,String data){
-        long ms=0;
+    public long gettiemMS(String format, String data) {
+        long ms = 0;
         try {
             DateFormat dateFormat = new SimpleDateFormat(format);
             Date date = dateFormat.parse(data);
-            ms=date.getTime();
-        }catch (Exception d){
-            ms=0;
+            ms = date.getTime();
+        } catch (Exception d) {
+            ms = 0;
         }
         return ms;
     }
+
     //获取当前时间ms
-    public long time(){
+    public long time() {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss");
-        Date curDate   =   new   Date(System.currentTimeMillis());
+        Date curDate = new Date(System.currentTimeMillis());
         //PROCESSING
         long diff = curDate.getTime();
         return diff;
     }
+
     /**
      * 获取当前日期
-     * @param isTime  true：返回yyyy-MM-dd HH:mm:ss格式，      false：返回yyyy-MM-dd格式
-     * */
+     *
+     * @param isTime true：返回yyyy-MM-dd HH:mm:ss格式，      false：返回yyyy-MM-dd格式
+     */
     public static String getDate(boolean isTime) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         return df.format(new Date());// new Date()为获取当前系统时间
     }
+
     /**
      * 获取当前日期  毫秒
-     * @param isTime  true：返回yyyy-MM-dd HH:mm:ss格式，      false：返回yyyy-MM-dd格式
-     * */
+     *
+     * @param isTime true：返回yyyy-MM-dd HH:mm:ss格式，      false：返回yyyy-MM-dd格式
+     */
     public static Long getDateMS(boolean isTime) {
-        long    startTime  =  (long)(Calendar.getInstance().getTimeInMillis());
+        long startTime = (long) (Calendar.getInstance().getTimeInMillis());
         return startTime;// new Date()为获取当前系统时间
     }
 
     /**
      * 获取当前日期
-     * */
+     */
     public static String GetDate() {
         Date dt = new Date();
         SimpleDateFormat matter1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -778,15 +814,11 @@ public class Tools {
     /**
      * 根据参数计算毫秒数
      *
-     * @param d
-     *            天数
-     * @param h
-     *            小时
-     * @param m
-     *            分钟
-     * @param s
-     *            秒
-     * */
+     * @param d 天数
+     * @param h 小时
+     * @param m 分钟
+     * @param s 秒
+     */
     public static long getMillis(int d, int h, int m, int s) {
         return d * 86400000l + h * 3600000l + m * 60000l + s * 1000l;
     }
@@ -798,7 +830,7 @@ public class Tools {
      */
     public static String getDistanceNorm(double distance) {
         String disStr = "";
-        distance = distance/10;
+        distance = distance / 10;
         if (distance > 1) {
             if (distance > 500) {
                 disStr = ">500KM";
@@ -878,10 +910,11 @@ public class Tools {
         int actionBarHeight = 0;
         if (context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true))// 如果资源是存在的、有效的
         {
-            actionBarHeight =context.getResources().getDisplayMetrics().heightPixels;
+            actionBarHeight = context.getResources().getDisplayMetrics().heightPixels;
         }
         return actionBarHeight;
     }
+
     // 获取ActionBar的宽度
     public static int getActionBarWidth(Context context) {
         TypedValue tv = new TypedValue();
@@ -978,6 +1011,7 @@ public class Tools {
         calcViewMeasure(view);
         return view.getMeasuredHeight();
     }
+
     /**
      * 测量控件的尺寸
      *
@@ -1005,49 +1039,53 @@ public class Tools {
 
     /**
      * 设置window的透明度
+     *
      * @param activity
      * @param alpha
      */
-    public static void setWindowhalph(Activity activity,float alpha){
+    public static void setWindowhalph(Activity activity, float alpha) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-        lp.alpha=alpha;
+        lp.alpha = alpha;
         activity.getWindow().setAttributes(lp);
     }
+
     private class DataHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            if (msg.what  == 0){
+            if (msg.what == 0) {
                 Logs.Debug("gg=========");
             }
         }
     }
+
     //延迟执行方法
-    private void DelayRun(){
-        final DataHandler dataHandler=new DataHandler();
-        final Message message=new Message();
-        message.what=0;
+    private void DelayRun() {
+        final DataHandler dataHandler = new DataHandler();
+        final Message message = new Message();
+        message.what = 0;
         dataHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 dataHandler.sendMessage(message);
             }
-        },700);//告诉主线程执行任
+        }, 700);//告诉主线程执行任
     }
 
-    public int getX(MotionEvent event){ // 得到的相对于View初始xy轴位置的距离
-        return (int)event.getX();
-    }
-    public int getY(MotionEvent event){ // 得到的相对于View初始xy轴位置的距离
-        return (int)event.getY();
+    public int getX(MotionEvent event) { // 得到的相对于View初始xy轴位置的距离
+        return (int) event.getX();
     }
 
-    public void myTextView(Context mcontext){
+    public int getY(MotionEvent event) { // 得到的相对于View初始xy轴位置的距离
+        return (int) event.getY();
+    }
+
+    public void myTextView(Context mcontext) {
         ColorStateList redColors = ColorStateList.valueOf(0xffff0000);
-        SpannableStringBuilder spanBuilder = new SpannableStringBuilder("新闻"+" "+"things");
+        SpannableStringBuilder spanBuilder = new SpannableStringBuilder("新闻" + " " + "things");
         //style 为0 即是正常的，还有Typeface.BOLD(粗体) Typeface.ITALIC(斜体)等
         //size  为0 即采用原始的正常的 size大小
-        spanBuilder.setSpan(new TextAppearanceSpan(null, 0, UITools.dip2px(mcontext,14), redColors, null), 0, 2, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        spanBuilder.setSpan(new TextAppearanceSpan(null, 0, UITools.dip2px(mcontext, 14), redColors, null), 0, 2, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         //设置特殊字符颜色
         TextView tv = new TextView(mcontext);
         tv.setText(spanBuilder);
@@ -1058,11 +1096,12 @@ public class Tools {
 
     /**
      * view     简单动画，透明度，大小变化，移动，旋转
+     *
      * @param view
-     * @param Duration  动画的时间
+     * @param Duration 动画的时间
      */
     //view透明度由alphaValueStard变化为alphaValueEnd  @param alphaValueStard  alphaValueEnd   变化前后的透明值（百分比）
-    public static void animationUserAlpha(View view,int Duration,float alphaValueStard,float alphaValueEnd){
+    public static void animationUserAlpha(View view, int Duration, float alphaValueStard, float alphaValueEnd) {
         AnimationSet animationSet = new AnimationSet(true);
         //透明
         AlphaAnimation alphaAnimation = new AlphaAnimation(alphaValueStard, alphaValueEnd);
@@ -1071,11 +1110,12 @@ public class Tools {
         animationSet.setFillAfter(true);
         view.startAnimation(animationSet);
     }
+
     //大小改变
     //* @param zoomXStart         变化前宽度（百分比：改变前一般为1f）    * @param zoomYStart         变化前高度（百分比：改变前一般为1f）
     //* @param zoomXStart         变化后宽度（百分比）    * @param zoomYStart         变化后高度（百分比）
     //
-    public static void animationUserScale(View view,int Duration,float zoomXStart, float zoomYStart,float zoomXEnd, float zoomYEnd){
+    public static void animationUserScale(View view, int Duration, float zoomXStart, float zoomYStart, float zoomXEnd, float zoomYEnd) {
         AnimationSet animationSet = new AnimationSet(true);
         ScaleAnimation scaleAnimation = new ScaleAnimation(zoomXStart, zoomXEnd, zoomYStart, zoomYEnd, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         scaleAnimation.setDuration(Duration);
@@ -1084,11 +1124,12 @@ public class Tools {
         view.startAnimation(animationSet);
         //参数0.5，说明以view的中心轴为变化轴
     }
+
     //移动
     //  * @param displacementXEnd 变化后相对于宽度，偏移X（百分比）   * @param displacementYEnd 变化后相对于高度，偏移Y（百分比）
     //  * @param displacementXStart 变化前相对于宽度，偏移X（百分比：开始变化，一般设为0f）
     //   * @param displacementYStart 变化后相对于高度，偏移Y（百分比:开始变化一般设为0f）
-    public static void animationUserTranslate(View view,int Duration,float displacementXStart,float displacementXEnd, float displacementYStart, float displacementYEnd){
+    public static void animationUserTranslate(View view, int Duration, float displacementXStart, float displacementXEnd, float displacementYStart, float displacementYEnd) {
         AnimationSet animationSet = new AnimationSet(true);
         TranslateAnimation translateAnimation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, displacementXStart,
                 Animation.RELATIVE_TO_SELF, displacementXEnd, Animation.RELATIVE_TO_SELF, displacementYStart,
@@ -1098,8 +1139,9 @@ public class Tools {
         animationSet.setFillAfter(true);
         view.startAnimation(animationSet);
     }
+
     //rotatstartAngle  轴心一般为0   rotatAngle  旋转角度，360，顺时针旋转360度，-360 ，逆时针旋转360度
-    public static void animationUserRotate(View view,int Duration,float rotatstartAngle, float rotatAngle){
+    public static void animationUserRotate(View view, int Duration, float rotatstartAngle, float rotatAngle) {
         AnimationSet animationSet = new AnimationSet(true);
         RotateAnimation rotateAnimation = new RotateAnimation(rotatstartAngle, rotatAngle, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         rotateAnimation.setDuration(Duration);
@@ -1110,6 +1152,7 @@ public class Tools {
 
     /**
      * 简单动画，透明度，大小变化，移动，旋转综合
+     *
      * @param view
      * @param zoom          true 缩小  透明    false 扩大，不透明
      * @param Duration      动画开始到结束的时间
@@ -1160,6 +1203,7 @@ public class Tools {
         animationSet.setFillAfter(true);
         view.startAnimation(animationSet);
     }
+
     //监听按下的键
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
@@ -1167,6 +1211,7 @@ public class Tools {
         }
         return false;
     }
+
     //    //获取收集里所有图片
 //    public ArrayList<HashMap<String, Object>> ScanPhoto() {
 //        //生成动态数组
@@ -1182,8 +1227,9 @@ public class Tools {
         } else
             return false;
     }
+
     //查看SD卡剩余空间
-    public long getSDFreeSize(){
+    public long getSDFreeSize() {
         //取得SD卡文件路径
         File path = Environment.getExternalStorageDirectory();
         StatFs sf = new StatFs(path.getPath());
@@ -1194,10 +1240,11 @@ public class Tools {
         //返回SD卡空闲大小
         //return freeBlocks * blockSize;  //单位Byte
         //return (freeBlocks * blockSize)/1024;   //单位KB
-        return (freeBlocks * blockSize)/1024 /1024; //单位MB
+        return (freeBlocks * blockSize) / 1024 / 1024; //单位MB
     }
+
     //查看SD卡总容量
-    public long getSDAllSize(){
+    public long getSDAllSize() {
         //取得SD卡文件路径
         File path = Environment.getExternalStorageDirectory();
         StatFs sf = new StatFs(path.getPath());
@@ -1208,45 +1255,44 @@ public class Tools {
         //返回SD卡大小
         //return allBlocks * blockSize; //单位Byte
         //return (allBlocks * blockSize)/1024; //单位KB
-        return (allBlocks * blockSize)/1024/1024; //单位MB
+        return (allBlocks * blockSize) / 1024 / 1024; //单位MB
     }
+
     //判断不可以卸载程序
-    public List<ApplicationInfo> Nounload(Activity activity){
-        PackageManager mPm =  activity.getPackageManager();
-        List<ApplicationInfo> installedAppList =  mPm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
-        List<ApplicationInfo> appList =  new ArrayList<>();
-        for (ApplicationInfo appInfo :installedAppList)
-        {
+    public List<ApplicationInfo> Nounload(Activity activity) {
+        PackageManager mPm = activity.getPackageManager();
+        List<ApplicationInfo> installedAppList = mPm.getInstalledApplications(PackageManager.GET_UNINSTALLED_PACKAGES);
+        List<ApplicationInfo> appList = new ArrayList<>();
+        for (ApplicationInfo appInfo : installedAppList) {
             boolean flag = false;
-            if((appInfo.flags&ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0)
-            {
+            if ((appInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
+                flag = true;
+            } else if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
                 flag = true;
             }
-            else if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
-                flag = true;
+            if (flag) {
+                appList.add(appInfo);
             }
-            if (flag) {  appList.add(appInfo); }
         }
         return appList;
     }
+
     //读文件
-    public String ReadSettings(Context context){
+    public String ReadSettings(Context context) {
         FileInputStream fIn = null;
         InputStreamReader isr = null;
         char[] inputBuffer = new char[255];
         String data = null;
-        try{
+        try {
 //            fIn = openFileInput("settings.dat");
             isr = new InputStreamReader(fIn);
             isr.read(inputBuffer);
             data = new String(inputBuffer);
-            Toast.makeText(context,"Settingsread",Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e) {
+            Toast.makeText(context, "Settingsread", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,  "Settings notread",Toast.LENGTH_SHORT).show();
-        }
-        finally {
+            Toast.makeText(context, "Settings notread", Toast.LENGTH_SHORT).show();
+        } finally {
             try {
                 isr.close();
                 fIn.close();
@@ -1256,22 +1302,22 @@ public class Tools {
         }
         return data;
     }
+
     //写文件
-    public void WriteSettings(Context context, String data){
+    public void WriteSettings(Context context, String data) {
         FileOutputStream fOut = null;
         OutputStreamWriter osw = null;
-        try{
+        try {
 //            fOut = openFileOutput("settings.dat",MODE_PRIVATE);
 
             osw = new OutputStreamWriter(fOut);
             osw.write(data);
-            osw.flush();     Toast.makeText(context,  "Settingssaved",Toast.LENGTH_SHORT).show();
-        }
-        catch (Exception e) {
+            osw.flush();
+            Toast.makeText(context, "Settingssaved", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context,  "Settingsnotsaved",Toast.LENGTH_SHORT).show();
-        }
-        finally {
+            Toast.makeText(context, "Settingsnotsaved", Toast.LENGTH_SHORT).show();
+        } finally {
             try {
                 osw.close();
                 fOut.close();
@@ -1280,18 +1326,21 @@ public class Tools {
             }
         }
     }
+
     //打开此Activity从栈中放到栈顶层而不是从新打开Activity
-    public void intent(Context context){
+    public void intent(Context context) {
 //　　intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
     }
+
     //获取手机壁纸
-    public Drawable get(Context context){
-        WallpaperManager wm= WallpaperManager.getInstance(context);
-        Drawable wallpaper=wm.getDrawable();
+    public Drawable get(Context context) {
+        WallpaperManager wm = WallpaperManager.getInstance(context);
+        Drawable wallpaper = wm.getDrawable();
         return wallpaper;
     }
+
     //SpanableString的使用，在类NewFiveViewTestOne中进行了使用
-    public  SpannableString SpannableStringUse(String valuem,Context context){
+    public SpannableString SpannableStringUse(String valuem, Context context) {
         SpannableString ss = new SpannableString("你好啊，今天是星期五了！我已经做好的放假的准备！");
 //        第一个参数为需要设定的样式，有很多个类可以选择
 //        第二参数是开始的位置，0表示第一个字符
@@ -1304,24 +1353,28 @@ public class Tools {
         //下划线
         ss.setSpan(new UnderlineSpan(), 2, 5, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //放置图片
-        ss.setSpan(new ImageSpan(context, R.mipmap.e5), 6,8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        ss.setSpan(new ImageSpan(context, R.mipmap.e5), 6, 8, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //可点击触发事件
         ss.setSpan(new TextClickSpan(context), 9, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         //触发事件的话，要加上下面这句话
         //tvTest.setMovementMethod(LinkMovementMethod.getInstance());
         return ss;
     }
+
     class TextClickSpan extends ClickableSpan {
         Context context;
-        public TextClickSpan(Context context){
-            this.context=context;
+
+        public TextClickSpan(Context context) {
+            this.context = context;
         }
+
         @Override
         public void onClick(View widget) {
             Logs.Debug("gg=================click");
             Toast.makeText(context, "aaaa", Toast.LENGTH_SHORT).show();
         }
     }
+
     /**
      * 权限 6.0 检测权限
      *
@@ -1346,6 +1399,7 @@ public class Tools {
         }
         return result;
     }
+
     public void reTextView(final TextView textView, final TextView txt_number) {
         textView.setVerticalScrollBarEnabled(true);
         textView.addTextChangedListener(new TextWatcher() {
@@ -1384,8 +1438,9 @@ public class Tools {
             }
         }
     }
+
     //地理位置权限判断
-    public void checkoutPermissionsJduge(final Context context, String[] mPermissions ) {
+    public void checkoutPermissionsJduge(final Context context, String[] mPermissions) {
         String[] mPermission = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
         if (!Tools.checkoutPermissions(context, mPermissions)) {
             RxPermissions.getInstance(context).request(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -1414,5 +1469,201 @@ public class Tools {
                     });
         }
     }
+
+    /**
+     * 商品购买成功后半小时后不显示评价
+     */
+    public void pingJiaShow() {
+//        if (!Tools.isEmpty(mOrderData.getSub().getTradeDate())) {
+//            long nowtime = time();
+//            long gettime = getMs(mOrderData.getSub().getTradeDate().replace("T", " "));
+//            boolean pingjiashow = (nowtime - gettime) >= (30 * 1000 * 60) ? false : true;
+//            long chatime = (nowtime - gettime) / 30 / 1000 / 60;
+//            if(pingjiashow){
+//                pingjia.setVisibility(View.VISIBLE);
+//            }else{
+//                pingjia.setVisibility(View.GONE);
+//            }
+//        }
+    }
+
+    public void myProgressDialog(Context context) {
+        final ProgressDialog progress = new ProgressDialog(context);
+        progress.setMessage("请稍等...");
+        progress.setCanceledOnTouchOutside(false);
+        progress.show();
+        progress.dismiss();
+    }
+
+    /**
+     * 发送短信
+     *
+     * @param smsBody
+     */
+    private void sendSMS(String smsBody, Context context) {
+//Uri smsToUri = Uri.parse("smsto:10000"); //如果想指定发送人
+        Uri smsToUri = Uri.parse("smsto:");
+        Intent intent = new Intent(Intent.ACTION_SENDTO, smsToUri);
+        intent.putExtra("sms_body", smsBody);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 跳转市场搜索某款软件
+     */
+    private void searchSoft(Context context) {
+        Intent intent = new Intent(
+                "android.intent.action.VIEW");
+        intent.setData(Uri
+                .parse("market://details?id=com.adobe.flashplayer"));
+        context.startActivity(intent);
+    }
+
+    //检测系统中是否已经安装了adobe flash player插件，插件的packageName是com.adobe.flashplayer：
+    private boolean check(Context context) {
+        PackageManager pm = context.getPackageManager();
+        List<PackageInfo> infoList = pm
+                .getInstalledPackages(PackageManager.GET_SERVICES);
+        for (PackageInfo info : infoList) {
+            if ("com.adobe.flashplayer".equals(info.packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void isAvilible(String packageName, Context context) {
+        PackageInfo packageInfo;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(packageName,
+                    0);
+        } catch (PackageManager.NameNotFoundException e) {
+            packageInfo = null;
+            e.printStackTrace();
+        }
+        if (packageInfo != null) {
+//1、通过包名
+            Intent intent = new Intent();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+            }
+            context.startActivity(intent);
+//2、通过类名：
+            Intent intent2 = new Intent();
+            intent2.setComponent(new ComponentName(packageName, "com.joe.internet.Main"));
+            context.startActivity(intent2);
+        }
+    }
+
+    //MD5加密
+    public String Md5(String plainText) {
+        String result = "";
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        md.update(plainText.getBytes());
+        byte b[] = md.digest();
+        int i;
+        StringBuffer buf = new StringBuffer("");
+        for (int offset = 0; offset < b.length; offset++) {
+            i = b[offset];
+            if (i < 0)
+                i += 256;
+            if (i < 16)
+                buf.append("0");
+            buf.append(Integer.toHexString(i));
+        }
+        result = buf.toString().toUpperCase();// 32位的加密（转成大写）
+        buf.toString().substring(8, 24);// 16位的加密
+        return result;
+    }
+
+    //    设置自动跳转页面,三秒后自动跳转
+    Timer timer = new Timer();
+
+    private void timerOne(final Context context) {
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                Intent goIntent = new Intent();
+                goIntent.setClass(context, MainActivity.class);
+                context.startActivity(goIntent);
+            }
+        }, 3 * 1000);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                context.startActivity(new Intent(context,
+                        MainActivity.class));
+            }
+        }, 1000);
+    }
+
+    //    取随机数
+    private void getRandomData() {
+        List<Integer> list = new ArrayList<Integer>();
+        for (int i = 0; i < 10; i++) {
+            list.add(i);
+        }
+        Collections.shuffle(list);
+        for (int v : list) {
+            Log.d("wxl", "V===" + v);
+        }
+//方法二
+//        Random random = new Random();
+//        int ran = random.nextInt(keywordsList.size());
+//        String tmp = keywordsList.get(ran).get("keyword").toString();
+    }
+
+    //    关闭键盘
+    public static void hideSoftInput(Activity activity) {
+        if (activity.getCurrentFocus() != null)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
+                ((InputMethodManager) activity
+                        .getSystemService(Context.INPUT_METHOD_SERVICE))
+                        .hideSoftInputFromWindow(activity.getCurrentFocus()
+                                .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+    }
+
+    //    android:windowSoftInputMode="adjustResize"
+//    android:windowSoftInputMode="adjustPan|stateAlwaysVisible"
+//windowSoftInputMode各值的含义：
+//    stateUnspecified：软键盘的状态并没有指定，系统将选择一个合适的状态或依赖于主题的设置
+//    stateUnchanged：当这个activity出现时，软键盘将一直保持在上一个activity里的状态，无论是隐藏还是显示
+//    stateHidden：用户选择activity时，软键盘总是被隐藏
+//    stateAlwaysHidden：当该Activity主窗口获取焦点时，软键盘也总是被隐藏的
+//    stateVisible：软键盘通常是可见的
+//    stateAlwaysVisible：用户选择activity时，软键盘总是显示的状态
+//    adjustUnspecified：默认设置，通常由系统自行决定是隐藏还是显示
+//    adjustResize：该Activity总是调整屏幕的大小以便留出软键盘的空间
+//    adjustPan：当前窗口的内容将自动移动以便当前焦点从不被键盘覆盖和用户能总是看到输入内容的部分
+//获取版本名称 VersionName
+    public String getVersionNameNew(Context context) {
+        PackageManager manager = context.getPackageManager();
+        String packageName = context.getPackageName();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "1.0";
+        }
+        return info.versionName;
+    }
+//    获取Android手机设备的IMSI / IMEI 信息
+public String getIMSI(Context context) {
+    TelephonyManager mTelephonyMgr = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+    String imsi = mTelephonyMgr.getSubscriberId();
+    String imei = mTelephonyMgr.getDeviceId();
+    Log.i("wxl", "imsi="+imsi);
+    Log.i("wxl", "imei="+imei);
+    return imei;
+}
 }
 

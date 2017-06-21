@@ -17,3 +17,14 @@
         android:background="@drawable/bd_bord_gray_ssb"/>
 
 </LinearLayout>
+    <!--
+    ImageView.ScaleType
+（1）ImageView.ScaleType.center:图片位于视图中间，但不执行缩放。
+（2）ImageView.ScaleType.CENTER_CROP 按统一比例缩放图片（保持图片的尺寸比例）便于图片的两维（宽度和高度）等于或者大于相应的视图的维度
+（3）ImageView.ScaleType.CENTER_INSIDE按统一比例缩放图片（保持图片的尺寸比例）便于图片的两维（宽度和高度）等于或者小于相应的视图的维度
+（4）ImageView.ScaleType.FIT_CENTER缩放图片使用center
+（5）ImageView.ScaleType.FIT_END缩放图片使用END
+（6）ImageView.ScaleType.FIT_START缩放图片使用START
+（7）ImageView.ScaleType.FIT_XY缩放图片使用XY
+（8）ImageView.ScaleType.MATRIX当绘制时使用图片矩阵缩放
+-->

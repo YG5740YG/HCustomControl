@@ -6,5 +6,15 @@
         android:id="@+id/progress_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:indeterminateDrawable="@drawable/progressbar"
         />
+    <!--定义ProgressBar-->
+    <ProgressBar
+        android:id="@+id/ProgressBar01"
+        style="@style/animStyle"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_centerInParent="true" />
+    <!--progerse幻灯片效果-->
 </LinearLayout>
+

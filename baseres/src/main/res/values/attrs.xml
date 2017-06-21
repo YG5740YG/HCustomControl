@@ -98,4 +98,9 @@
         <attr name="pivotX" format="fraction"/>
         <attr name="pivotY" format="fraction" />
     </declare-styleable>
+
+
 </resources>
+<!--不同主题下需要把颜色，数值写成attr属性
+xml里，我们可以简单的引用attr属性值-->
+    <!--android:background="?attr/colorPrimary"-->

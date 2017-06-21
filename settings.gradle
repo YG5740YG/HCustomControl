@@ -1,1 +1,2 @@
 include ':app', ':baselibrary', ':baseres','mytest','multi-image-selector'
+//,'jpush'

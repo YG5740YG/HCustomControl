@@ -71,7 +71,8 @@
             <!--</intent-filter>-->
         <!--</activity>-->
         <!--<activity android:name=".HttpConnectionDownLoadeImage"-->
-        <activity android:name="newhome.baselibrary.Activity.SwipeLayout.SwipeLayoutActivity"
+        <!--<activity android:name="newhome.baselibrary.Activity.SwipeLayout.SwipeLayoutActivity"-->
+        <activity android:name="newhome.baselibrary.Activity.Swutchbutton.switchbutton"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -83,7 +84,9 @@
             android:exported="true"></activity>
         <activity android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"></activity>
-        <activity android:name="newhome.baselibrary.Pay.PayMentActivity"></activity>
+        <activity android:name="newhome.baselibrary.Pay.PayMentActivity"
+            android:theme="@style/ActivityDialog"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

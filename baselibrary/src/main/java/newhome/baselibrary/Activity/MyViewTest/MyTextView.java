@@ -3,6 +3,7 @@ package newhome.baselibrary.Activity.MyViewTest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.Gravity;
@@ -32,6 +33,7 @@ public class MyTextView extends BaseActivity {
         setContentView( R.layout.textview);
         findViewById();
         mcontext=this;
+        ppwindow.setTextColor(Color.parseColor("#ffffff"));
         ppwindow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -89,4 +89,5 @@ dependencies {
 
     //标签组控件
     compile 'com.kyleduo.switchbutton:library:1.2.8'
+//    https://github.com/mzule/ActivityRouter      //路由
 }

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import newhome.baselibrary.Activity.MyScrollLayout.MainActivity;
 import newhome.baselibrary.Tools.Tools;
 
 /**
@@ -163,5 +165,20 @@ public class MyDialog {
 
     public void Show(){
         mydialog.create().show();
+    }
+//    对话框菜单
+    public void DialogMenu(final Context context){
+        new AlertDialog.Builder(context)
+                .setTitle("choice")
+                .setItems(new String[] { "选择1", "选择2", "选择3", "选择4" },
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                Toast.makeText(context,
+                                        which + "", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        }).show();
     }
 }
