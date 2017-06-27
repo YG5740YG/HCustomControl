@@ -1656,14 +1656,28 @@ public class Tools {
         }
         return info.versionName;
     }
-//    获取Android手机设备的IMSI / IMEI 信息
-public String getIMSI(Context context) {
-    TelephonyManager mTelephonyMgr = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-    String imsi = mTelephonyMgr.getSubscriberId();
-    String imei = mTelephonyMgr.getDeviceId();
-    Log.i("wxl", "imsi="+imsi);
-    Log.i("wxl", "imei="+imei);
-    return imei;
-}
+    //    获取Android手机设备的IMSI / IMEI 信息
+    public static String getIMSI(Context context) {
+        TelephonyManager mTelephonyMgr = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+        String imsi = mTelephonyMgr.getSubscriberId();
+        String imei = mTelephonyMgr.getDeviceId();
+        Log.i("wxl", "imsi="+imsi);
+        Log.i("wxl", "imei="+imei);
+        return imei;
+    }
+    public static int getScreenWith(Activity context){
+        DisplayMetrics dm = new DisplayMetrics();
+        //获取屏幕信息
+        context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int screenWidth = dm.widthPixels;
+        return screenWidth;
+    }
+    public static int getScreenHeight(Activity context){
+        DisplayMetrics dm = new DisplayMetrics();
+        //获取屏幕信息
+        context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int screenWidth = dm.heightPixels;
+        return screenWidth;
+    }
 }
 

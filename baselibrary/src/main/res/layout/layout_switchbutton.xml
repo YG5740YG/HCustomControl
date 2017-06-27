@@ -2,9 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
     <com.kyleduo.switchbutton.SwitchButton
         android:layout_width="wrap_content"
         android:id="@+id/switchButton"
         android:layout_height="wrap_content" />
+    <com.ldoublem.thumbUplib.ThumbUpView
+        android:id="@+id/tpv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:cracksColor="#33475f"
+        app:edgeColor="#9d55b8"
+        app:fillColor="#ea8010"
+        app:unlikeType="1" />
 </LinearLayout>

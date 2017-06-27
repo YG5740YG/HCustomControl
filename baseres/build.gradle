@@ -90,4 +90,6 @@ dependencies {
     //标签组控件
     compile 'com.kyleduo.switchbutton:library:1.2.8'
 //    https://github.com/mzule/ActivityRouter      //路由
+//    有趣点赞效果 Android
+    compile 'com.ldoublem.thumbUplib:ThumbUplib:0.1'
 }
