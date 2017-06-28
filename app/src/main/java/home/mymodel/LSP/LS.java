@@ -113,12 +113,11 @@ public class LS extends Activity{
             layoutParams.setMargins(2,2,2,2);
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-
-            if(i<8 &&mCount<8){
-                AsynImageUtil.display(mImageMap.get(i),imageView);
+            if(i<8){
+                imageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i)));
                 mCount++;
             }else{
-                AsynImageUtil.display(mImageMapOther.get(i-8),imageView);
+                imageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i-8)));
             }
             linearLayouts.get(i).removeAllViews();
             linearLayouts.get(i).addView(imageView);

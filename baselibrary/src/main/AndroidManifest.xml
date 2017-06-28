@@ -5,6 +5,7 @@
 
         <activity android:name=".Share.MyShareActivity"/>
         <activity android:name=".Pay.PayMentActivity"></activity>
+        <activity android:name="home.mymodel.Calendar.CalendarActivity"></activity>
     </application>
 
 </manifest>
