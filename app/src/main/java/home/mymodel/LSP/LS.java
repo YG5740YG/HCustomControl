@@ -14,10 +14,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import home.mymodel.R;
 import newhome.baselibrary.ImageHandle.CompressImage.AbImageUtil;
 import newhome.baselibrary.Tools.AsynImageUtil;
+import newhome.baselibrary.Tools.Logs;
 
 /**
  * Created by Administrator on 2017/6/27.
@@ -42,10 +44,12 @@ public class LS extends Activity{
     LinearLayout mLEightE;
     List<LinearLayout>linearLayouts;
     List<Integer>mImages;
+    List<Integer>mImageOther;
     Map<Integer,Integer>mImageMap;
-    Map<Integer,Integer>mImageMapOther;
-    int mCount;
-    int mCountOther;
+    Map<Integer,Integer>mXuHaoMap;
+    int mSelect;
+    List<Integer>mClears;
+    Random random;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +76,12 @@ public class LS extends Activity{
         mLEightE=(LinearLayout)findViewById(R.id.mLayoutEightE);
     }
     public void setup(){
-        mCount=0;
-        mCountOther=0;
+        random=new Random();
+        mSelect=-1;
+        mClears=new ArrayList<>();
         mImageMap=new ArrayMap<>();
-        mImageMapOther=new ArrayMap<>();
+        mImageOther=new ArrayList<>();
+        mXuHaoMap=new ArrayMap<>();
         mImages=new ArrayList<>();
         mImages.add(R.mipmap.one);
         mImages.add(R.mipmap.two);
@@ -83,11 +89,30 @@ public class LS extends Activity{
         mImages.add(R.mipmap.four);
         mImages.add(R.mipmap.five);
         mImages.add(R.mipmap.six);
-        mImages.add(R.mipmap.serven);
+        mImages.add(R.mipmap.e2);
         mImages.add(R.mipmap.eight);
-        for (int i=0;i<mImages.size();i++){
-            mImageMap.put(i,mImages.get(i));
-            mImageMapOther.put(i,mImages.get(i));
+
+        boolean flage=true;
+        for (int i=0;i<mImages.size()*2;i++){
+            int randomInt=random.nextInt(8);
+            for (int key:mXuHaoMap.keySet()){
+                if(key==randomInt){
+                    i--;
+                    flage=false;
+                    break;
+                }
+            }
+            if(!flage){
+                flage=true;
+            }else {
+                mXuHaoMap.put(i, randomInt);
+                Logs.Debug("gg=========i==" + i + "-----------" + randomInt);
+                if (i < 8) {
+                    mImageMap.put(i, mImages.get(randomInt));
+                } else {
+                    mImageMap.put(i, mImages.get(randomInt - 8));
+                }
+            }
         }
         linearLayouts=new ArrayList<>();
         linearLayouts.add(mLOne);
@@ -113,28 +138,35 @@ public class LS extends Activity{
             layoutParams.setMargins(2,2,2,2);
             imageView.setLayoutParams(layoutParams);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            if(i<8){
-                imageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i)));
-                mCount++;
-            }else{
-                imageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i-8)));
-            }
+            imageView.setImageDrawable(getResources().getDrawable(mImageMap.get(mXuHaoMap.get(i))));
             linearLayouts.get(i).removeAllViews();
             linearLayouts.get(i).addView(imageView);
-            linearLayouts.get(i).setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    switch (event.getAction()){
-                        case MotionEvent.ACTION_DOWN:
-                            linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
-                            break;
-                        case MotionEvent.ACTION_BUTTON_PRESS:
-//                            linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-                            break;
+            if(!mClears.contains(i)) {
+                linearLayouts.get(i).setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        Logs.Debug("gg===========" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_UP);
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            if (mSelect == finalI) {
+                                linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+                            } else if (mSelect != finalI && mSelect != -1) {
+                                linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+                                linearLayouts.get(mSelect).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+                            } else {
+                                linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+                            }
+                            if (mSelect + 8 == finalI||mSelect-8==finalI) {
+                                linearLayouts.get(mSelect).removeAllViews();
+                                linearLayouts.get(finalI).removeAllViews();
+                                mClears.add(mSelect);
+                                mClears.add(finalI);
+                            }
+                            mSelect = finalI;
+                        }
+                        return false;
                     }
-                    return false;
-                }
-            });
+                });
+            }
         }
     }
 }
