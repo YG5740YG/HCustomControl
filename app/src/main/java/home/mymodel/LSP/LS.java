@@ -249,8 +249,20 @@ public class LS extends Activity implements View.OnClickListener{
         for (int i=0;i<mChildLayoutMap.get(mLayoutType)*mChildLayoutMap.get(mLayoutType);i++){
             if (mXuHaoMap.get(i) < 8) {
                 mImageMap.put(i, mImages.get(mXuHaoMap.get(i)));
-            } else {
+            } else if(mXuHaoMap.get(i) < 16){
                 mImageMap.put(i, mImages.get(mXuHaoMap.get(i) - 8));
+            } else if(mXuHaoMap.get(i) < 24){
+                mImageMap.put(i, mImages.get(mXuHaoMap.get(i) - 16));
+            }else if(mXuHaoMap.get(i) < 32){
+                mImageMap.put(i, mImages.get(mXuHaoMap.get(i) - 24));
+            }else if(mXuHaoMap.get(i) < 40){
+                mImageMap.put(i, mImages.get(mXuHaoMap.get(i) - 32));
+            }else if(mXuHaoMap.get(i) < 48){
+                mImageMap.put(i, mImages.get(mXuHaoMap.get(i) - 40));
+            }else if(mXuHaoMap.get(i) < 56){
+                mImageMap.put(i, mImages.get(mXuHaoMap.get(i) - 48));
+            }else if(mXuHaoMap.get(i) < 64){
+                mImageMap.put(i, mImages.get(mXuHaoMap.get(i) - 56));
             }
         }
     }
@@ -304,38 +316,42 @@ public class LS extends Activity implements View.OnClickListener{
             final int finalI = i;
             linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
             makeImage();//生成Image控件
-            if(i<16) {
+//            if(i<16) {
                 mImageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i)));
                 linearLayouts.get(i).removeAllViews();
                 linearLayouts.get(i).addView(mImageView);
-                if (!mClears.contains(i)) {
                     linearLayouts.get(i).setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
                             Logs.Debug("gg===========" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_UP);
-                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                if (mSelectNum == finalI) {
-                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-                                } else if (mSelectNum != finalI && mSelectNum != -1) {
-                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
-                                    linearLayouts.get(mSelectNum).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-                                } else if (mSelectNum != -1) {
-                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+                            if (!mClears.contains(finalI)) {
+                                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                    if (mSelectNum == finalI) {
+                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+                                    } else if (mSelectNum != finalI && mSelectNum != -1) {
+                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+                                        linearLayouts.get(mSelectNum).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+                                    } else {
+                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+                                    }
+                                    if ((mSelect % 8 == mXuHaoMap.get(finalI) % 8) && mSelect != mXuHaoMap.get(finalI) && mSelect != -1) {
+                                        linearLayouts.get(mSelectNum).removeAllViews();
+                                        linearLayouts.get(finalI).removeAllViews();
+                                        mClears.add(mSelectNum);
+                                        mClears.add(finalI);
+                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+                                        mSelect = -1;
+                                        mSelectNum = -1;
+                                    } else {
+                                        mSelect = mXuHaoMap.get(finalI);
+                                        mSelectNum = finalI;
+                                    }
                                 }
-                                if ((mSelect + 8 == mXuHaoMap.get(finalI) || mSelect - 8 == mXuHaoMap.get(finalI)) && mSelect != -1) {
-                                    linearLayouts.get(mSelectNum).removeAllViews();
-                                    linearLayouts.get(finalI).removeAllViews();
-                                    mClears.add(mSelectNum);
-                                    mClears.add(finalI);
-                                }
-                                mSelect = mXuHaoMap.get(finalI);
-                                mSelectNum = finalI;
                             }
                             return false;
                         }
                     });
-                }
-            }
+//                }
         }
     }
 }
