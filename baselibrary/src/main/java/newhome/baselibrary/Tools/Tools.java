@@ -1665,6 +1665,9 @@ public class Tools {
         Log.i("wxl", "imei="+imei);
         return imei;
     }
+    /**
+     * 根据分辨率获取屏幕的宽度
+     */
     public static int getScreenWith(Activity context){
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
@@ -1672,12 +1675,15 @@ public class Tools {
         int screenWidth = dm.widthPixels;
         return screenWidth;
     }
+    /**
+     * 根据分辨率获取屏幕的宽度
+     */
     public static int getScreenHeight(Activity context){
         DisplayMetrics dm = new DisplayMetrics();
         //获取屏幕信息
         context.getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int screenWidth = dm.heightPixels;
-        return screenWidth;
+        int screenHeight = dm.heightPixels;
+        return screenHeight;
     }
 }
 
