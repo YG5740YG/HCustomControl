@@ -77,7 +77,8 @@
         <!--<activity android:name=".MyDreaw.MyDreawActivity">-->
         <!--<activity android:name="newhome.baselibrary.Activity.AnimationAnimUse">-->
         <!--<activity android:name="newhome.baselibrary.MyHttp.OkHttp.MyHttpTese">-->
-        <activity android:name=".LSP.LS">
+        <!--<activity android:name=".LSP.LS">-->
+        <activity android:name="">
         <!--<activity android:name="home.mymodel.Calendar.CalendarActivity">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

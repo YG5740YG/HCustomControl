@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ViewD
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:background="@drawable/bd_bord_gray_ss"
+        android:layout_margin="@dimen/half_margin"
+        android:padding="@dimen/half_margin">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/e3"
+            android:layout_gravity="center"
+            android:id="@+id/mDrageImageOne"/>
+    </ViewD>
+</LinearLayout>
