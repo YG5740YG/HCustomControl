@@ -1,14 +1,19 @@
-package home.mymodel.LSP;
+package home.mymodel.LSP.Drage;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,45 +25,26 @@ import java.util.Map;
 import java.util.Random;
 
 import home.mymodel.R;
-import me.nereo.multi_image_selector.bean.Image;
-import newhome.baselibrary.ImageHandle.CompressImage.AbImageUtil;
-import newhome.baselibrary.Tools.AsynImageUtil;
 import newhome.baselibrary.Tools.Logs;
 import newhome.baselibrary.Tools.Tools;
 import newhome.baselibrary.Tools.UITools;
 
 /**
- * Created by Administrator on 2017/6/27.
+ * Created by Administrator on 2017/7/4 0004.
  */
 
-public class LS extends Activity implements View.OnClickListener{
+public class DrageView extends Activity implements View.OnClickListener{
     LinearLayout mMainContent;
-//    LinearLayout mLOne;
-//    LinearLayout mLOneO;
-//    LinearLayout mLTwo;
-//    LinearLayout mLTwoT;
-//    LinearLayout mLThree;
-//    LinearLayout mLThreeT;
-//    LinearLayout mLFour;
-//    LinearLayout mLFourF;
-//    LinearLayout mLFive;
-//    LinearLayout mLFiveF;
-//    LinearLayout mLSix;
-//    LinearLayout mLSixS;
-//    LinearLayout mLServen;
-//    LinearLayout mLServenS;
-//    LinearLayout mLEight;
-//    LinearLayout mLEightE;
     TextView mRefreshT;
     ImageView mImageView;
     RadioButton mRadioOne;
     RadioButton mRadioTwo;
     RadioButton mRadioThree;
-    List<LinearLayout>linearLayouts;
+    List<LinearLayout> linearLayouts;
     List<LinearLayout>mLinearLayoutRows;
     List<Integer>mImages;
     List<Integer>mImageOther;
-    Map<Integer,Integer>mImageMap;
+    Map<Integer,Integer> mImageMap;
     Map<Integer,Integer>mXuHaoMap;
     /**
      * 存储被选中图片key
@@ -95,6 +81,9 @@ public class LS extends Activity implements View.OnClickListener{
     int mEveryRowWidth=0;
     int TotalHeight=3200;
     int mNumber;
+    boolean mSelectBool;
+    LinearLayout mContainer;
+    LinearLayout mLayoutOne;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,23 +98,8 @@ public class LS extends Activity implements View.OnClickListener{
         }
     }
     public void findView(){
+        mLayoutOne=(LinearLayout) findViewById(R.id.mLayoutOne);
         mMainContent=(LinearLayout)findViewById(R.id.mMainContent);
-//        mLOne=(LinearLayout)findViewById(R.id.mLayoutOne);
-//        mLOneO=(LinearLayout)findViewById(R.id.mLayoutOneO);
-//        mLTwo=(LinearLayout)findViewById(R.id.mLayoutTwo);
-//        mLTwoT=(LinearLayout)findViewById(R.id.mLayoutTwoT);
-//        mLThree=(LinearLayout)findViewById(R.id.mLayoutThree);
-//        mLThreeT=(LinearLayout)findViewById(R.id.mLayoutThreeT);
-//        mLFour=(LinearLayout)findViewById(R.id.mLayoutFour);
-//        mLFourF=(LinearLayout)findViewById(R.id.mLayoutFourF);
-//        mLFive=(LinearLayout)findViewById(R.id.mLayoutFive);
-//        mLFiveF=(LinearLayout)findViewById(R.id.mLayoutFiveF);
-//        mLSix=(LinearLayout)findViewById(R.id.mLayoutSix);
-//        mLSixS=(LinearLayout)findViewById(R.id.mLayoutSixS);
-//        mLServen=(LinearLayout)findViewById(R.id.mLayoutServen);
-//        mLServenS=(LinearLayout)findViewById(R.id.mLayoutServenS);
-//        mLEight=(LinearLayout)findViewById(R.id.mLayoutEight);
-//        mLEightE=(LinearLayout)findViewById(R.id.mLayoutEightE);
         mRefreshT=(TextView)findViewById(R.id.mRefresh);
         mRadioOne=(RadioButton)findViewById(R.id.mRedioOne);
         mRadioTwo=(RadioButton)findViewById(R.id.mRedioTwo);
@@ -149,7 +123,7 @@ public class LS extends Activity implements View.OnClickListener{
      * 自布局设置,不同选择具有不同的布局
      */
     public void childLayoutSet(){
-        mScreenWidth=Tools.getScreenWith(this);
+        mScreenWidth= Tools.getScreenWith(this);
         mScreenHeight=Tools.getScreenHeight(this);
         if(mRadioOne.isChecked()){
             mLayoutType=1;
@@ -161,7 +135,7 @@ public class LS extends Activity implements View.OnClickListener{
             mLayoutType=3;
             mNumber=8;
         }
-        mEveryRowHeight=UITools.px2dip(this,TotalHeight)/mChildLayoutMap.get(mLayoutType);
+        mEveryRowHeight= UITools.px2dip(this,TotalHeight)/mChildLayoutMap.get(mLayoutType);
         mEveryRowWidth=((mScreenWidth-150)/mChildLayoutMap.get(mLayoutType));
         Logs.Debug("gg======Height=="+mEveryRowWidth+"==="+mEveryRowHeight);
         mainLayoutSet();
@@ -272,30 +246,6 @@ public class LS extends Activity implements View.OnClickListener{
             }
         }
     }
-
-//    /**
-//     * 得到展示图片的布局
-//     */
-//    public void getContent(){
-//        linearLayouts=new ArrayList<>();
-//        linearLayouts.add(mLOne);
-//        linearLayouts.add(mLOneO);
-//        linearLayouts.add(mLTwo);
-//        linearLayouts.add(mLTwoT);
-//        linearLayouts.add(mLThree);
-//        linearLayouts.add(mLThreeT);
-//        linearLayouts.add(mLFour);
-//        linearLayouts.add(mLFourF);
-//        linearLayouts.add(mLFive);
-//        linearLayouts.add(mLFiveF);
-//        linearLayouts.add(mLSix);
-//        linearLayouts.add(mLSixS);
-//        linearLayouts.add(mLServen);
-//        linearLayouts.add(mLServenS);
-//        linearLayouts.add(mLEight);
-//        linearLayouts.add(mLEightE);
-//    }
-
     /**
      * 生成图片控件
      */
@@ -307,57 +257,112 @@ public class LS extends Activity implements View.OnClickListener{
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
     public void setup(){
+        mSelectBool=true;
         mSelect=-1;
         mSelectNum=-1;
         mClears=new ArrayList<>();
         mImageMap=new ArrayMap<>();
         mImageOther=new ArrayList<>();
         mXuHaoMap=new ArrayMap<>();
+        DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
         childLayoutSet();//初始化布局
         initImages();//初始化需要用到的图片
         getRandom();//为图片随机排序
         getShowImages();//得到需要展示的图片
-//        getContent();//得到需要载入图片的布局
-        for (int i=0;i<linearLayouts.size();i++){
+        mContainer=linearLayouts.get(0);
+        for (int i=1;i<linearLayouts.size();i++) {
             final int finalI = i;
             linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
             makeImage();//生成Image控件
-//            if(i<16) {
                 mImageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i)));
                 linearLayouts.get(i).removeAllViews();
                 linearLayouts.get(i).addView(mImageView);
-                    linearLayouts.get(i).setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            Logs.Debug("gg===========" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_UP);
-                            if (!mClears.contains(finalI)) {
-                                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                    if (mSelectNum == finalI) {
-                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-                                    } else if (mSelectNum != finalI && mSelectNum != -1) {
-                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
-                                        linearLayouts.get(mSelectNum).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-                                    } else {
-                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
-                                    }
-                                    if ((mSelect % mNumber == mXuHaoMap.get(finalI) % mNumber) && mSelect != mXuHaoMap.get(finalI) && mSelect != -1) {
-                                        linearLayouts.get(mSelectNum).removeAllViews();
-                                        linearLayouts.get(finalI).removeAllViews();
-                                        mClears.add(mSelectNum);
-                                        mClears.add(finalI);
-                                        linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-                                        mSelect = -1;
-                                        mSelectNum = -1;
-                                    } else {
-                                        mSelect = mXuHaoMap.get(finalI);
-                                        mSelectNum = finalI;
-                                    }
-                                }
-                            }
-                            return false;
-                        }
-                    });
-//                }
-        }
+            ((ImageView)linearLayouts.get(i).getChildAt(0)).setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+                    Logs.Debug("gg===========gg==" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_MOVE
+                            + "==" + MotionEvent.ACTION_UP);
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        ClipData data = ClipData.newPlainText("", "");
+                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                        view.startDrag(data, shadowBuilder, view, 0);
+                        view.setVisibility(View.INVISIBLE);
+//                        mContainer=(LinearLayout)view.getParent();
+                        return true;
+                    }else {
+                        return false;
+                    }
+                }
+            });
+            final Drawable enterShape = getResources().getDrawable(R.drawable.bd_bord_gray_ssb);
+            final Drawable normalShape = getResources().getDrawable(R.drawable.bd_bord_gray_ssg);
+            ((ImageView)linearLayouts.get(1).getChildAt(0)).setOnDragListener(new View.OnDragListener() {
+                @Override
+                public boolean onDrag(View view, DragEvent event) {
+                    int action = event.getAction();
+                    switch (event.getAction()) {
+                        case DragEvent.ACTION_DRAG_STARTED:
+                            Logs.Debug("gg==========gg=="+1);
+                            // Do nothing
+                            break;
+                        case DragEvent.ACTION_DRAG_ENTERED:
+                            Logs.Debug("gg==========gg=="+2);
+                            view.setBackgroundDrawable(enterShape);
+                            break;
+                        case DragEvent.ACTION_DRAG_EXITED:
+                            Logs.Debug("gg==========gg=="+3);
+                            view.setBackgroundDrawable(normalShape);
+                            break;
+                        case DragEvent.ACTION_DROP:
+                            Logs.Debug("gg==========gg=="+4);
+                            // Dropped, reassign View to ViewGroup
+                            break;
+                        case DragEvent.ACTION_DRAG_ENDED:
+                            Logs.Debug("gg==========gg=="+5);
+                            linearLayouts.get(finalI).removeAllViews();
+                            mContainer.removeAllViewsInLayout();
+                            mContainer.addView(view);
+                            view.setVisibility(View.VISIBLE);
+                        default:
+                            break;
+                    }
+                    return true;
+                }
+            });
+//                linearLayouts.get(i).setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        Logs.Debug("gg===========" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_MOVE);
+//                        if (!mClears.contains(finalI)) {
+//                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                                if (mSelectNum == finalI && mSelectBool) {
+//                                    mSelectBool=false;
+//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+//                                } else if (mSelectNum != finalI && mSelectNum != -1) {
+//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+//                                    linearLayouts.get(mSelectNum).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+//                                } else {
+//                                    mSelectBool=true;
+//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+//                                }
+//                                if ((mSelect % mNumber == mXuHaoMap.get(finalI) % mNumber) && mSelect != mXuHaoMap.get(finalI) && mSelect != -1) {
+//                                    linearLayouts.get(mSelectNum).removeAllViews();
+//                                    linearLayouts.get(finalI).removeAllViews();
+//                                    mClears.add(mSelectNum);
+//                                    mClears.add(finalI);
+//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+//                                    mSelect = -1;
+//                                    mSelectNum = -1;
+//                                } else {
+//                                    mSelect = mXuHaoMap.get(finalI);
+//                                    mSelectNum = finalI;
+//                                }
+//                            }
+//                        }
+//                        return false;
+//                    }
+//                });
+            }
     }
 }
+
