@@ -2,6 +2,7 @@ package home.mymodel.LSP;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import home.mymodel.LSP.Drage.MakeImage;
 import home.mymodel.R;
 import me.nereo.multi_image_selector.bean.Image;
 import newhome.baselibrary.ImageHandle.CompressImage.AbImageUtil;
@@ -60,6 +62,7 @@ public class LS extends Activity implements View.OnClickListener{
     List<Integer>mImageOther;
     Map<Integer,Integer>mImageMap;
     Map<Integer,Integer>mXuHaoMap;
+    TextView mLineText;
     /**
      * 存储被选中图片key
      */
@@ -95,6 +98,7 @@ public class LS extends Activity implements View.OnClickListener{
     int mEveryRowWidth=0;
     int TotalHeight=3200;
     int mNumber;
+    boolean mSelectBool;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +134,7 @@ public class LS extends Activity implements View.OnClickListener{
         mRadioOne=(RadioButton)findViewById(R.id.mRedioOne);
         mRadioTwo=(RadioButton)findViewById(R.id.mRedioTwo);
         mRadioThree=(RadioButton)findViewById(R.id.mRedioThree);
+        mLineText=(TextView)findViewById(R.id.mLineText);
         mRadioOne.setSelected(true);
         typeCell();
         clickEvent();
@@ -307,6 +312,7 @@ public class LS extends Activity implements View.OnClickListener{
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
     public void setup(){
+        mSelectBool=true;
         mSelect=-1;
         mSelectNum=-1;
         mClears=new ArrayList<>();
@@ -318,6 +324,15 @@ public class LS extends Activity implements View.OnClickListener{
         getRandom();//为图片随机排序
         getShowImages();//得到需要展示的图片
 //        getContent();//得到需要载入图片的布局
+        mLineText.setText("拼——拼");
+        mLineText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, MakeImage.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         for (int i=0;i<linearLayouts.size();i++){
             final int finalI = i;
             linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
@@ -332,12 +347,14 @@ public class LS extends Activity implements View.OnClickListener{
                             Logs.Debug("gg===========" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_UP);
                             if (!mClears.contains(finalI)) {
                                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                    if (mSelectNum == finalI) {
+                                    if (mSelectNum == finalI&& mSelectBool) {
+                                        mSelectBool=false;
                                         linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
                                     } else if (mSelectNum != finalI && mSelectNum != -1) {
                                         linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
                                         linearLayouts.get(mSelectNum).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
                                     } else {
+                                        mSelectBool=true;
                                         linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
                                     }
                                     if ((mSelect % mNumber == mXuHaoMap.get(finalI) % mNumber) && mSelect != mXuHaoMap.get(finalI) && mSelect != -1) {

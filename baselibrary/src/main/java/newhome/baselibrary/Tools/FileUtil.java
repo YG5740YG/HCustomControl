@@ -11,6 +11,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +26,20 @@ import java.util.Date;
 public class FileUtil {
     public static String SaveFolder = "e_zhebao";
     File f;
+    // 生成文件夹
+    public static void makeRootDirectory(String fileName) {
+        String  filePath= Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+"SplitImage"+"/"+fileName;
+        File file = null;
+        String status = Environment.getExternalStorageState();
+        try {
+            file = new File(filePath);
+            if (!file.exists()) {
+                file.mkdirs();
+            }
+        } catch (Exception e) {
+            Log.i("error:", e+"");
+        }
+    }
     public static void init(String saveFolder) {
         if(saveFolder!=null) {
             SaveFolder=saveFolder;
@@ -55,7 +71,8 @@ public class FileUtil {
         if(isSdOk()) {
 //            path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+"jiujii"+"/";
 //            path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+"myHome"+"/";
-            path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+SaveFolder+"/";
+//            path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+SaveFolder+"/";
+            path= Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+"SplitImage"+"/";
         }
         return path;
     }

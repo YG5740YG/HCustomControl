@@ -1685,5 +1685,14 @@ public class Tools {
         int screenHeight = dm.heightPixels;
         return screenHeight;
     }
+    /**
+     * 隐藏键盘
+     */
+    public void hideKeyboard(Context context) {
+//        if (getWindow().getAttributes().softInputMode != WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN) {
+//            if (getCurrentFocus() != null)
+//                inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//        }
+    }
 }
 

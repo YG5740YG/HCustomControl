@@ -92,4 +92,9 @@ dependencies {
 //    https://github.com/mzule/ActivityRouter      //路由
 //    有趣点赞效果 Android
     compile 'com.ldoublem.thumbUplib:ThumbUplib:0.1'
+    //新的比较好 好用的刷新加载控件，https://github.com/scwang90/SmartRefreshLayout，
+    // https://github.com/scwang90/SmartRefreshLayout/blob/master/art/md_smart.md
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.1'
+    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.1'//如果使用了特殊的Header\
+    compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.3'//一个开源gif控件
 }

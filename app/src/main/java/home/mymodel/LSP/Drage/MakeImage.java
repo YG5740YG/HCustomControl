@@ -1,13 +1,13 @@
 package home.mymodel.LSP.Drage;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.DisplayMetrics;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,32 +17,44 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import home.mymodel.LSP.LS;
 import home.mymodel.R;
+import newhome.baselibrary.ImageHandle.CompressImage.BitmapTo;
+import newhome.baselibrary.Model.SplitImageData;
 import newhome.baselibrary.Tools.Logs;
 import newhome.baselibrary.Tools.Tools;
 import newhome.baselibrary.Tools.UITools;
 
 /**
- * Created by Administrator on 2017/7/4 0004.
+ * Created by Administrator on 2017/7/5 0005.
  */
 
-public class DrageView extends Activity implements View.OnClickListener{
+public class MakeImage extends Activity implements View.OnClickListener{
     LinearLayout mMainContent;
     TextView mRefreshT;
     ImageView mImageView;
     RadioButton mRadioOne;
     RadioButton mRadioTwo;
     RadioButton mRadioThree;
+    TextView mLineText;
     List<LinearLayout> linearLayouts;
     List<LinearLayout>mLinearLayoutRows;
     List<Integer>mImages;
     List<Integer>mImageOther;
+    /**
+     * 存数固定图片索引和图片id
+     */
     Map<Integer,Integer> mImageMap;
+    /**
+     * 存储图片索引和路径
+     */
+    Map<Integer,String>mFlowImageMap;
     Map<Integer,Integer>mXuHaoMap;
     /**
      * 存储被选中图片key
@@ -52,7 +64,6 @@ public class DrageView extends Activity implements View.OnClickListener{
      * 存储被选中图片序号
      */
     int mSelectNum;
-    List<Integer>mClears;
     Random random;
     int mScreenWidth;
     int mScreenHeight;
@@ -82,6 +93,22 @@ public class DrageView extends Activity implements View.OnClickListener{
     boolean mSelectBool;
     LinearLayout mContainer;
     LinearLayout mLayoutOne;
+    List<Integer>mCanClickItems;
+    ImageView mShowImageView;
+    /**
+     * 需要拼接的图片
+     */
+    Bitmap mUseBitmap;
+    List<SplitImageData> splitImageDatas;
+    /**
+     * 图片手机路径
+     */
+    List<String>mImagePath;
+    /**
+     * bug模式
+     */
+    boolean mBugModel;
+    int mBugNum;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +116,14 @@ public class DrageView extends Activity implements View.OnClickListener{
         findView();
         setup();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mBugModel=false;
+        mBugNum=0;
+    }
+
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.mRefresh){
@@ -102,12 +137,43 @@ public class DrageView extends Activity implements View.OnClickListener{
         mRadioOne=(RadioButton)findViewById(R.id.mRedioOne);
         mRadioTwo=(RadioButton)findViewById(R.id.mRedioTwo);
         mRadioThree=(RadioButton)findViewById(R.id.mRedioThree);
+        mShowImageView=(ImageView)findViewById(R.id.mShowImage);
+        mLineText=(TextView)findViewById(R.id.mLineText);
         mRadioOne.setSelected(true);
         typeCell();
         clickEvent();
         mContext=getApplicationContext();
     }
 
+    /**
+     * 获取需要拼接的图片
+     */
+    public Bitmap getBitmap(){
+        mUseBitmap=BitmapTo.getDrawableToBitmap(getResources().getDrawable(R.mipmap.big_hzw_image));
+        return mUseBitmap;
+    }
+
+    /**
+     * 获取拆分后的图片列表路径
+     * @return
+     */
+    public List<SplitImageData>getSplitImages(){
+        getBitmap();//获取拼图所需要的图片
+        File file = new File("/storage/emulated/0/SplitImage");
+        Logs.Debug("gg============="+file.getName());
+        if (file != null && file.exists() && file.isDirectory()) {
+            for (File item : file.listFiles()) {
+                item.delete();
+            }
+        }
+        splitImageDatas=BitmapTo.ImageSplitter(mContext,mUseBitmap,mChildLayoutMap.get(mLayoutType),mChildLayoutMap.get(mLayoutType),"MyFirst");
+        if (file != null && file.exists() && file.isDirectory()) {
+            for (File item : file.listFiles()) {
+                mImagePath.add(item.getAbsolutePath());
+            }
+        }
+        return splitImageDatas;
+    }
     /**
      *不同的类型对应不同的列数初始化
      */
@@ -204,7 +270,7 @@ public class DrageView extends Activity implements View.OnClickListener{
     }
 
     /**
-     * 图片初始化
+     * 图片初始化,固定的图片，用于测试
      */
     public void initImages(){
         mImages=new ArrayList<>();
@@ -217,6 +283,31 @@ public class DrageView extends Activity implements View.OnClickListener{
         if(mNumber!=6) {
             mImages.add(R.mipmap.e2);
             mImages.add(R.mipmap.eight);
+        }
+    }
+
+    /**
+     * 填入需要显示的图片,对于动态的图片，存储的手机路径,用于拼图
+     */
+    public void getShowFlowImages(){
+        for (int i=0;i<mChildLayoutMap.get(mLayoutType)*mChildLayoutMap.get(mLayoutType);i++){
+//            if (mXuHaoMap.get(i) < mNumber) {
+                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i)));
+//            } else if(mXuHaoMap.get(i) < mNumber*2){
+//                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i) - mNumber));
+//            } else if(mXuHaoMap.get(i) < mNumber*3){
+//                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i) - mNumber*2));
+//            }else if(mXuHaoMap.get(i) < mNumber*4){
+//                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i) - mNumber*3));
+//            }else if(mXuHaoMap.get(i) < mNumber*5){
+//                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i) - mNumber*4));
+//            }else if(mXuHaoMap.get(i) < mNumber*6){
+//                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i) - mNumber*5));
+//            }else if(mXuHaoMap.get(i) < mNumber*7){
+//                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i) - mNumber*6));
+//            }else if(mXuHaoMap.get(i) < mNumber*8){
+//                mFlowImageMap.put(i, mImagePath.get(mXuHaoMap.get(i) - mNumber*7));
+//            }
         }
     }
 
@@ -254,114 +345,128 @@ public class DrageView extends Activity implements View.OnClickListener{
         mImageView.setLayoutParams(layoutParams);
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
+
+    /**
+     * 获取可以点击的模块   1、四个角
+     * fillItem 需要填充的模块
+     */
+    public List<Integer> getCanClickItems(int fillItem){
+        mCanClickItems=new ArrayList<>();
+        int rows=mChildLayoutMap.get(mLayoutType);
+        mCanClickItems.add(fillItem-1);
+        mCanClickItems.add(fillItem+1);
+        mCanClickItems.add(fillItem-rows);
+        mCanClickItems.add(fillItem+rows);
+        if(fillItem%rows==0){
+            mCanClickItems.remove(0);
+            if(fillItem==rows*(rows-1)){
+               mCanClickItems.remove(2);
+            }else if(fillItem==0){
+                mCanClickItems.remove(1);
+            }
+        }else if (fillItem%rows==rows-1){
+            mCanClickItems.remove(1);
+            if(fillItem==rows-1){
+                mCanClickItems.remove(1);
+            }else if(fillItem==rows*rows-1){
+                mCanClickItems.remove(2);
+            }
+        }else{
+            if(fillItem<rows){
+                mCanClickItems.remove(2);
+            }else if(fillItem>=(rows-1)*rows){
+                mCanClickItems.remove(3);
+            }
+        }
+        return mCanClickItems;
+    }
     public void setup(){
         mSelectBool=true;
         mSelect=-1;
         mSelectNum=-1;
-        mClears=new ArrayList<>();
         mImageMap=new ArrayMap<>();
+        mFlowImageMap=new ArrayMap<>();
         mImageOther=new ArrayList<>();
         mXuHaoMap=new ArrayMap<>();
+        mImagePath=new ArrayList<>();
         DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
         childLayoutSet();//初始化布局
-        initImages();//初始化需要用到的图片
+        initImages();//初始化需要用到的图片，固定
         getRandom();//为图片随机排序
-        getShowImages();//得到需要展示的图片
+//        getShowImages();//得到需要展示的图片，固定
         mContainer=linearLayouts.get(0);
-        for (int i=1;i<linearLayouts.size();i++) {
+        getCanClickItems(0);//获取可以点击的items
+        getSplitImages();//获取拆分后的图片
+        getShowFlowImages();//得到需要展示的图片，动态
+        mShowImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mBugNum<2) {
+                    mShowImageView.setBackground(getResources().getDrawable(R.color.transparent));
+                    mBugModel=false;
+                    mBugNum++;
+                }else{
+                    mShowImageView.setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+                    mBugModel=true;
+                    mBugNum=0;
+                }
+            }
+        });
+        mLineText.setText("连——连");
+        mLineText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(mContext, LS.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        for (int i=0;i<linearLayouts.size();i++) {
             final int finalI = i;
             linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-            makeImage();//生成Image控件
-            mImageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i)));
-            linearLayouts.get(i).removeAllViews();
-            linearLayouts.get(i).addView(mImageView);
-            mImageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent event) {
-                    Logs.Debug("gg===========gg==" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_MOVE
-                            + "==" + MotionEvent.ACTION_UP);
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        ClipData data = ClipData.newPlainText("", "");
-                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
-                        view.startDrag(data, shadowBuilder, view, 0);
-                        view.setVisibility(View.INVISIBLE);
-//                        mContainer=(LinearLayout)view.getParent();
-                        return true;
-                    }else {
-                        return false;
-                    }
+            if(i!=0) {
+                makeImage();//生成Image控件
+//                mImageView.setImageDrawable(getResources().getDrawable(mImageMap.get(i)));//获取手机上写固定的图片
+                if(mBugModel) {
+                mImageView.setImageURI(Uri.parse(mImagePath.get(finalI)));//动态图片拆分...,一次性排好顺序
+                }else {
+                    mImageView.setImageURI(Uri.parse(mFlowImageMap.get(finalI)));//动态图片拆分...正常排序
                 }
-            });
-            final Drawable enterShape = getResources().getDrawable(R.drawable.bd_bord_gray_ssb);
-            final Drawable normalShape = getResources().getDrawable(R.drawable.bd_bord_gray_ssg);
-            mImageView.setOnDragListener(new View.OnDragListener() {
-                @Override
-                public boolean onDrag(View view, DragEvent event) {
-                    int action = event.getAction();
-                    switch (event.getAction()) {
-                        case DragEvent.ACTION_DRAG_STARTED:
-                            Logs.Debug("gg==========gg=="+1);
-                            // Do nothing
-                            break;
-                        case DragEvent.ACTION_DRAG_ENTERED:
-                            Logs.Debug("gg==========gg=="+2);
-                            break;
-                        case DragEvent.ACTION_DRAG_EXITED:
-                            Logs.Debug("gg==========gg=="+3);
-                            break;
-                        case DragEvent.ACTION_DROP:
-                            Logs.Debug("gg==========gg=="+4);
-                            // Dropped, reassign View to ViewGroup
-                            break;
-                        case DragEvent.ACTION_DRAG_ENDED:
-                            Logs.Debug("gg==========gg=="+5);
-                            ((LinearLayout)(view.getParent())).removeAllViews();
-//                            View view1=new View(mContext);
-//                            view1=view;
-                            mContainer.removeAllViewsInLayout();
-                            mContainer.addView(view);
-//                            view.setVisibility(View.VISIBLE);
-                        default:
-                            break;
-                    }
-                    return true;
-                }
-            });
-//                linearLayouts.get(i).setOnTouchListener(new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        Logs.Debug("gg===========" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_MOVE);
-//                        if (!mClears.contains(finalI)) {
-//                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-//                                if (mSelectNum == finalI && mSelectBool) {
-//                                    mSelectBool=false;
-//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-//                                } else if (mSelectNum != finalI && mSelectNum != -1) {
-//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
-//                                    linearLayouts.get(mSelectNum).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-//                                } else {
-//                                    mSelectBool=true;
-//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
-//                                }
-//                                if ((mSelect % mNumber == mXuHaoMap.get(finalI) % mNumber) && mSelect != mXuHaoMap.get(finalI) && mSelect != -1) {
-//                                    linearLayouts.get(mSelectNum).removeAllViews();
-//                                    linearLayouts.get(finalI).removeAllViews();
-//                                    mClears.add(mSelectNum);
-//                                    mClears.add(finalI);
-//                                    linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
-//                                    mSelect = -1;
-//                                    mSelectNum = -1;
-//                                } else {
-//                                    mSelect = mXuHaoMap.get(finalI);
-//                                    mSelectNum = finalI;
-//                                }
-//                            }
-//                        }
-//                        return false;
-//                    }
-//                });
-        }
 
+                linearLayouts.get(i).removeAllViews();
+                linearLayouts.get(i).addView(mImageView);
+            }
+            if(mSelectNum!=finalI) {
+                linearLayouts.get(i).setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        Logs.Debug("gg===========" + event.getAction() + "==" + MotionEvent.ACTION_DOWN + "==" + MotionEvent.ACTION_UP);
+                        for (int k=0;k<mCanClickItems.size();k++){
+                            Logs.Debug("gg===========gg=="+finalI+"==="+mCanClickItems.get(k));
+                        }
+                        if (mCanClickItems.contains(finalI)) {
+                            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                linearLayouts.get(finalI).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_g));
+                                if (mSelectNum != -1) {
+                                    linearLayouts.get(mSelectNum).setBackground(getResources().getDrawable(R.drawable.bd_bord_gray_r));
+                                }
+                                mSelectNum = finalI;
+                            } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                                ImageView mImageView1 = new ImageView(mContext);
+                                mImageView1 = (ImageView) linearLayouts.get(finalI).getChildAt(0);
+                                linearLayouts.get(finalI).removeAllViews();
+                                mContainer.removeAllViews();
+                                mContainer.addView(mImageView1);
+                                mContainer = linearLayouts.get(finalI);
+                                getCanClickItems(finalI);
+                            }
+                        }
+                        return true;
+                    }
+                });
+            }
+        }
     }
 }
 

@@ -79,13 +79,20 @@
         <!--<activity android:name="newhome.baselibrary.MyHttp.OkHttp.MyHttpTese">-->
         <!--<activity android:name=".LSP.LS">-->
         <!--<activity android:name=".LSP.DrageTestOne">-->
-        <activity android:name=".LSP.Drage.DrageView">
-        <!--<activity android:name="home.mymodel.Calendar.CalendarActivity">-->
+        <!--<activity android:name=".LSP.Drage.DrageView">-->
+        <activity android:name=".Start.HomeActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LSP.Drage.MakeImage"
+        android:launchMode="singleTask"></activity>
+        <activity android:name=".LSP.HomeActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".LSP.LS"
+            android:launchMode="singleTask"></activity>
         <activity android:name="newhome.baselibrary.ImageHandle.NewMyZxing.MipcaActivityCapture"></activity>
         <activity android:name=".wxapi.WXEntryActivity"
             android:exported="true"></activity>

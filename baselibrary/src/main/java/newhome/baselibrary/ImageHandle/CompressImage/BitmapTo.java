@@ -21,9 +21,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -33,8 +35,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import newhome.baselibrary.ImageHandle.CompressImage.AbImageUtil;
+import newhome.baselibrary.Model.SplitImageData;
 import newhome.baselibrary.MyViewI.DataResponse;
 import newhome.baselibrary.R;
 import newhome.baselibrary.Tools.FileUtil;
@@ -53,7 +58,7 @@ import top.zibin.luban.OnCompressListener;
 
 public class BitmapTo {
     static Context context;
-    FileUtil fileUtil = new FileUtil();
+    static FileUtil fileUtil = new FileUtil();
     static Bitmap bitmap;
     public BitmapTo(Context context) {
         this.context = context;
@@ -257,7 +262,36 @@ public class BitmapTo {
         return mBitmapDrawable;
     }
 
-    //    bitmap存入本地
+    /**
+     * 把bitmap数据存入本地手机文件夹
+     * @param bitmap  需要存入的bitmap
+     */
+    public static void saveBitmap(Bitmap bitmap, String fileName) {
+        Log.e("gg==", "保存图片");
+        String filePath=fileUtil.appSavePathFile(fileName);//生成文件并返回文件完整路径
+        File f = new File(filePath);//生成file类实例
+//        Bitmap bmp = BitmapFactory.decodeFile(filePath);
+        if (f.exists()) {
+            f.delete();
+        }
+        try {
+            FileOutputStream out = new FileOutputStream(f);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.flush();
+            out.close();
+            Log.i("gg====", "已经保存");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+    /**
+     * 把bitmap数据存入本地手机文件夹
+     * @param bitmap  需要存入的bitmap
+     */
     public void saveBitmap(Bitmap bitmap) {
         Log.e("gg==", "保存图片");
         String fileName=fileUtil.randomPath();//生成文件名，.jpg格式
@@ -983,5 +1017,37 @@ public class BitmapTo {
                         //TODO 压缩成功后调用，返回压缩后的图片文件
                     }
                 });
+    }
+
+    /**
+     * 图片拆分
+     * @param bitmap  需要拆分的图片
+     * @param xPiece  横向拆分份数
+     * @param yPiece  纵向拆分的份数
+     * @return  返回拆分后的bitmap列表
+     */
+    public static List<SplitImageData> ImageSplitter(Context mContext,Bitmap bitmap, int xPiece, int yPiece,String bitmapName){
+        List<SplitImageData> pieces = new ArrayList<SplitImageData>(xPiece * yPiece);
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int pieceWidth = width / xPiece;
+        int pieceHeight = height / yPiece;
+        for (int i = 0; i < yPiece; i++) {
+            for (int j = 0; j < xPiece; j++) {
+                SplitImageData piece = new SplitImageData();
+                piece.setIndex(j + i * xPiece);
+                int xValue = j * pieceWidth;
+                int yValue = i * pieceHeight;
+                Logs.Debug("gg============data-=="+xValue+"=="+yValue+"=="+
+                        pieceWidth+"=="+pieceHeight);
+                Bitmap bitmap1=Bitmap.createBitmap(bitmap, xValue, yValue,
+                        pieceWidth, pieceHeight);
+                BitmapTo bitmapTo=new BitmapTo(mContext);
+                bitmapTo.saveBitmap(bitmap1,bitmapName+i+""+j+".jpg");
+                piece.setBitmap(bitmap1);
+                pieces.add(piece);
+            }
+        }
+        return pieces;
     }
 }
