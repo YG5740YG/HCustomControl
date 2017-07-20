@@ -63,5 +63,9 @@ public class BusAction {
     public  enum  intent{
         VIEW ;
     }
+
+//    recycle  View
+public static int CRIME_RECYCLE_VIEW_TYPT=0;
+public static int CRIME_RECYCLE_VIEW_TYPT_TWO=1;
 }
 

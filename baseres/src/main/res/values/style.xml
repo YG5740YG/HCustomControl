@@ -93,4 +93,8 @@
     <style name="animStyle" parent="@android:style/Widget.ProgressBar.Large">
         <item name="android:indeterminateDrawable">@drawable/test</item>
     </style>
+    <style name="my_own_style">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>

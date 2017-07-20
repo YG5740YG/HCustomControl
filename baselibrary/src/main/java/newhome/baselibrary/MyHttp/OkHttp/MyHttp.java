@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.google.gson.Gson;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -15,13 +16,16 @@ import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 
+import newhome.baselibrary.Model.DataResponseString;
+import newhome.baselibrary.Model.LimitBuy;
+import newhome.baselibrary.MyHttpOld.JSON.Data.HomeData;
 import newhome.baselibrary.MyViewI.DataResponseT;
 import newhome.baselibrary.Tools.Logs;
 import rx.Observable;
@@ -44,13 +48,28 @@ public class MyHttp {
     static LinkedHashMap<String,String> mParams;
     MultipartBuilder mMultipartBuilder;
     public static final int SHOW_RESPONSE = 0;
+    private int mRequestType=0;
+    private ACache mCache;
     /**
      * 参数初始化
      * @param mPath
      * @param params
      * @return
      */
-    public MyHttp myHttp(String mPath, final LinkedHashMap<String,String> params){
+    public MyHttp myHttp(Context context, String mPath, final LinkedHashMap<String,String> params){
+        MyHttp myHttp=new MyHttp();
+        this.mPath=mPath;
+        this.mParams=params;
+        this.mCache=ACache.get(context);
+        return myHttp;
+    }
+    /**
+     * 参数初始化
+     * @param mPath
+     * @param params
+     * @return
+     */
+    public MyHttp myHttp( String mPath, final LinkedHashMap<String,String> params){
         MyHttp myHttp=new MyHttp();
         this.mPath=mPath;
         this.mParams=params;
@@ -61,15 +80,65 @@ public class MyHttp {
      * @param dataResponse
      */
     public void get(final DataResponseT dataResponse){
+        Logs.Debug("gg============mType=="+dataResponse.mType.toString());
         //创建一个Request
+        mRequestType=0;
         Logs.Debug("gg=======mPath=="+mPath);
         if(mParams.size()>0){
             mPath=mPath+"?";
             for (String key:
-                 mParams.keySet()) {
+                    mParams.keySet()) {
                 mPath=mPath+key+"="+mParams.get(key)+"&";
             }
-           mPath= mPath.substring(0,mPath.length()-1);
+            mPath= mPath.substring(0,mPath.length()-1);
+        }
+        Logs.Debug("gg=======mPath==1="+mPath);
+        mRequest = new Request.Builder()
+                .url(mPath)
+                .build();
+        mCall = mOkHttpClient.newCall(mRequest);
+        //请求加入调度
+        mCall.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(Request request, IOException e)
+            {
+                Logs.Debug("gg========onFaile=="+e.toString());
+            }
+            @Override
+            public void onResponse(final Response response) throws IOException
+            {
+                Logs.Debug("gg========success==");
+                mResponse   =response.body().string();
+//                byte []bytes=response.body().bytes();
+//                InputStream inputStream=response.body().byteStream();
+                //String htmlStr =  response.body().string();  //支持大文件下载
+                //使用handle回到主线程
+//                Message message = new Message();
+//                message.what = SHOW_RESPONSE;
+//                message.obj = mResponse;
+//                handler.sendMessage(message);
+
+                //从其他线程返回的数据，在主线程中使用，使用观察监听
+                obs(mResponse,dataResponse);
+            }
+        });
+    }
+    /**
+     * get请求  返回String数据
+     * @param dataResponse
+     */
+    public void get(final DataResponseString dataResponse){
+        //创建一个Request
+        mRequestType=1;
+        Logs.Debug("gg=======mPath=="+mPath);
+        if(mParams.size()>0){
+            mPath=mPath+"?";
+            for (String key:
+                    mParams.keySet()) {
+                mPath=mPath+key+"="+mParams.get(key)+"&";
+            }
+            mPath= mPath.substring(0,mPath.length()-1);
         }
         Logs.Debug("gg=======mPath==1="+mPath);
         mRequest = new Request.Builder()
@@ -233,7 +302,57 @@ public class MyHttp {
             }
             @Override
             public void onNext(Object o) {
-                dataResponse.onSucc(o);
+                Gson gson = new Gson();
+                try {
+                    JSONObject jsonObject = new JSONObject(o.toString());
+                    if(jsonObject.getInt("stats")==1){
+//                        Object data=gson.fromJson(jsonObject.getString(dataResponse.mSats),dataResponse.mType);
+                        Logs.Debug("gg==========json=="+jsonObject.getString(dataResponse.mSats));
+                        Object object= gson.fromJson(o.toString(), dataResponse.mType);
+                        Logs.Debug("gg==========limit=="+((LimitBuy)object).getData().getGoods().get(0).getName());
+                        dataResponse.onSucc(object);
+                    }else{
+                        dataResponse.onFail("error");
+                    }
+                }catch (Exception e){
+                    dataResponse.onFail(e.toString());
+                    Logs.Debug("http==error=="+e.toString());
+                }
+            }
+        };
+        observable.subscribe(mySubscriber1);
+    }
+    /**
+     * 数据返回，主线程使用
+     * @param respose
+     * @param dataResponse
+     */
+    public void obs(Object respose,final DataResponseString dataResponse){
+        Observable observable = Observable.just(respose)
+                .subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+                .observeOn(AndroidSchedulers.mainThread()); // 指定 Subscriber 的回调发生在主线程
+        Subscriber<Object> mySubscriber1 = new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+
+            }
+            @Override
+            public void onError(Throwable e) {
+                dataResponse.onFail(e.toString());
+            }
+            @Override
+            public void onNext(Object o) {
+                try {
+                    JSONObject jsonObject = new JSONObject(o.toString());
+                    if(jsonObject.getInt("stats")==1){
+                        dataResponse.onSucc(o);
+                    }else{
+                        dataResponse.onFail("error");
+                    }
+                }catch (Exception e){
+                    dataResponse.onFail(e.toString());
+                    Logs.Debug("http==error=="+e.toString());
+                }
             }
         };
         observable.subscribe(mySubscriber1);

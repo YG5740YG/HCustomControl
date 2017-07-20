@@ -50,31 +50,43 @@ public class MyTest extends Activity implements View.OnClickListener {
             LinkedHashMap<String, String> params = new LinkedHashMap<>();
             params.put("userName", "zgh");
             params.put("passWord", "123456");
-            UseHttp useHttp = new UseHttp(CommonUseAction.POST, HttpAction.MYPHP, params, new DataResponseT() {
+            UseHttp useHttp = new UseHttp(CommonUseAction.POST, HttpAction.MYPHP, params, new DataResponseT("data") {
                 @Override
                 public void onSucc(Object claxx) {
                     String jsonData = "{\"FirstName\":\"Peter\",\"LastName\":\"Griffin\",\"Age\":\"35\"}";
                     MyData myData = MyTools.jsonToModel(jsonData, MyData.class);
                     responseText.setText("post"+myData.getAge()+"=="+myData.getLastName());
                 }
+
+                @Override
+                public void onCache(Object claxx) {
+
+                }
+
                 @Override
                 public void onFail(String error) {
 
                 }
             });
-            UseHttp useHttp1=new UseHttp(CommonUseAction.GET, HttpAction.MYPHP, params, new DataResponseT() {
+            UseHttp useHttp1=new UseHttp(CommonUseAction.GET, HttpAction.MYPHP, params, new DataResponseT("data") {
                 @Override
                 public void onSucc(Object claxx) {
                     String jsonData = "{\"FirstName\":\"Peter\",\"LastName\":\"Griffin\",\"Age\":\"35\"}";
                     MyData myData = MyTools.jsonToModel(jsonData, MyData.class);
                     responseText.setText(responseText.getText()+"++get++"+myData.getAge()+"=="+myData.getLastName());
                 }
+
+                @Override
+                public void onCache(Object claxx) {
+
+                }
+
                 @Override
                 public void onFail(String error) {
 
                 }
             });
-            UseHttp useHttp2=new UseHttp(CommonUseAction.LOADFILE, HttpAction.IMAGEURL, params, new DataResponseT() {
+            UseHttp useHttp2=new UseHttp(CommonUseAction.LOADFILE, HttpAction.IMAGEURL, params, new DataResponseT("data") {
                 @Override
                 public void onSucc(Object response) {
                     Bitmap bitmap=(Bitmap)response;
@@ -83,6 +95,12 @@ public class MyTest extends Activity implements View.OnClickListener {
                     iv_show.setVisibility(View.VISIBLE);
                     iv_show.setImageBitmap(bitmap);
                 }
+
+                @Override
+                public void onCache(Object claxx) {
+
+                }
+
                 @Override
                 public void onFail(String error) {
 
@@ -106,13 +124,19 @@ Logs.Debug("gg=========错误");
             } else {
                 uri = Uri.parse("");
             }
-            UseHttp useHttp3=new UseHttp(CommonUseAction.UPLOADE, HttpAction.UPLOADE, params, imageUrl, new DataResponseT() {
+            UseHttp useHttp3=new UseHttp(CommonUseAction.UPLOADE, HttpAction.UPLOADE, params, imageUrl, new DataResponseT("data") {
                 @Override
                 public void onSucc(Object claxx) {
                     String jsonData = "{\"FirstName\":\"Peter\",\"LastName\":\"Griffin\",\"Age\":\"35\"}";
                     MyData myData = MyTools.jsonToModel(jsonData, MyData.class);
                     responseText.setText(responseText.getText()+"++updata++"+myData.getAge()+"=="+myData.getLastName()+"===="+claxx.toString());
                 }
+
+                @Override
+                public void onCache(Object claxx) {
+
+                }
+
                 @Override
                 public void onFail(String error) {
                     responseText.setText(responseText.getText()+"==gg==");

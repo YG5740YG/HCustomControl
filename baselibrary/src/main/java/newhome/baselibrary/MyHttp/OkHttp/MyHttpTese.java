@@ -1,14 +1,17 @@
 package newhome.baselibrary.MyHttp.OkHttp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import java.util.LinkedHashMap;
 
+import newhome.baselibrary.Model.LimitBuy;
 import newhome.baselibrary.MyViewI.DataResponseT;
 import newhome.baselibrary.R;
+import newhome.baselibrary.Tools.Logs;
 
 /**
  * Created by Administrator on 2017/6/27 0027.
@@ -18,6 +21,8 @@ public class MyHttpTese extends Activity {
 
     TextView mButton;
     TextView mTextView;
+    String mResultJson;
+    Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,18 +48,36 @@ public class MyHttpTese extends Activity {
                 LinkedHashMap<String,String>linkedHashMap=new LinkedHashMap<String, String>();
                 linkedHashMap.put("act","GetLimitBuy");
                 linkedHashMap.put("cityid","0");
-                new MyHttp().myHttp("https://m.9ji.com/app/2_0/ProductSearch.aspx",linkedHashMap).get(new DataResponseT() {
+                new MyHttp().myHttp(mContext,"https://m.9ji.com/app/2_0/ProductSearch.aspx",linkedHashMap).get(new DataResponseT<LimitBuy>("data") {
                     @Override
-                    public void onSucc(Object response) {
-                        mTextView.setText(response.toString());
+                    public void onSucc(LimitBuy limitBuy) {
+                        Logs.Debug("gg=============gg=="+limitBuy.getData().getTitle());
+                        mTextView.setText(limitBuy.toString());
+                        mResultJson=limitBuy.toString();
                     }
+
+                    @Override
+                    public void onCache(LimitBuy claxx) {
+
+                    }
+
                     @Override
                     public void onFail(String error) {
                         mTextView.setText("error");
+                        mResultJson=error;
                     }
                 });
             }
         });
+        if(savedInstanceState!=null){
+            mResultJson=savedInstanceState.getString("json");
+            mTextView.setText(mResultJson);
+        }
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("json",mResultJson);
     }
 }

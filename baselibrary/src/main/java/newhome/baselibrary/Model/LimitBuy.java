@@ -96,7 +96,7 @@ public class LimitBuy {
              * yanPrice : 5180
              */
             private String tagImg;
-            private int xianPrice;
+            private double xianPrice;
             private String Tag_Text;
             private String productImg;
             private String name;
@@ -107,7 +107,7 @@ public class LimitBuy {
                 this.tagImg = tagImg;
             }
 
-            public void setXianPrice(int xianPrice) {
+            public void setXianPrice(double xianPrice) {
                 this.xianPrice = xianPrice;
             }
 
@@ -135,7 +135,7 @@ public class LimitBuy {
                 return tagImg;
             }
 
-            public int getXianPrice() {
+            public double getXianPrice() {
                 return xianPrice;
             }
 
