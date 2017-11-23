@@ -63,7 +63,7 @@
             >
         </ListView>
     </LinearLayout>
-    <SimpleControls.MScrollControl.DragLinearlayout
+    <com.haotu.cityexpressdriver.MyGaoDeMap.DragLinealayout
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:orientation="vertical"
@@ -96,5 +96,5 @@
             android:layout_height="wrap_content"
             android:overScrollMode="never"
             android:visibility="visible"/>
-    </SimpleControls.MScrollControl.DragLinearlayout>>
+    </com.haotu.cityexpressdriver.MyGaoDeMap.DragLinealayout>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package yg.customcontrol.com.SimpleControls.MScrollControl;
+package SimpleControls.MScrollControl;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -10,8 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import yg.customcontrol.com.MyTools.CommonTools;
-import yg.customcontrol.com.R;
+import MyTools.CommonTools;
+import yg.customcontrol.com.mylibrary.R;
+
 
 /**
  * @describe:
@@ -50,7 +51,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
         mContentView= LayoutInflater.from(mContext).inflate(R.layout.layout_slide,null);
         findView();
         DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
-        screenHeight = ((dm.heightPixels)-CommonTools.dpToPx(mTopValue,mContext.getResources()))/8;
+        screenHeight = ((dm.heightPixels)- CommonTools.dpToPx(mTopValue,mContext.getResources()))/8;
         mBottomDragLayout.setMoveListen(this);
         mBottomDragLayout.setTopValue(mTopValue);
         mMiddleView.postDelayed(new Runnable() {

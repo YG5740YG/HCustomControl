@@ -1,4 +1,4 @@
-package yg.customcontrol.com.MyTools;
+package MyTools;
 
 import android.content.Context;
 import android.content.res.Resources;

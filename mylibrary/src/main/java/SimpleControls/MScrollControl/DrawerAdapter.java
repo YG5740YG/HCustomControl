@@ -1,4 +1,4 @@
-package yg.customcontrol.com.SimpleControls.MScrollControl;
+package SimpleControls.MScrollControl;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import java.util.List;
 
-import yg.customcontrol.com.R;
+import yg.customcontrol.com.mylibrary.R;
+
 
 /**
  * @describe:

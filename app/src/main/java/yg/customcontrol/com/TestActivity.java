@@ -1,4 +1,4 @@
-package yg.customcontrol.com.SimpleControls;
+package yg.customcontrol.com;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -11,13 +11,12 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+import SimpleControls.MScrollControl.DrawerAdapter;
+import SimpleControls.MScrollControl.DrawerContentModel;
+import SimpleControls.MScrollControl.SlideView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import yg.customcontrol.com.R;
-import yg.customcontrol.com.SimpleControls.MScrollControl.DrawerAdapter;
-import yg.customcontrol.com.SimpleControls.MScrollControl.DrawerContentModel;
-import yg.customcontrol.com.SimpleControls.MScrollControl.SlideView;
 
 /**
  * @describe:
@@ -26,10 +25,7 @@ import yg.customcontrol.com.SimpleControls.MScrollControl.SlideView;
  */
 
 public class TestActivity extends Activity implements SlideView.MoveListen {
-    private Unbinder unbinder;
-    @BindView(R.id.content)
     LinearLayout mContent;
-
     RecyclerView mRecycleView;
     DrawerAdapter mDrawerAdapter;
     DrawerContentModel drawerContentModel;
@@ -39,7 +35,7 @@ public class TestActivity extends Activity implements SlideView.MoveListen {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_slide_main);
-        unbinder = ButterKnife.bind(this);
+        mContent=(LinearLayout)findViewById(R.id.content);
         initDrawerData();
         mSlideView=new SlideView(getApplicationContext(),150);
         mSlideView.setMoveListen(this);

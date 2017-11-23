@@ -1,4 +1,4 @@
-package yg.customcontrol.com.SimpleControls.MScrollControl;
+package SimpleControls.MScrollControl;
 
 import android.os.Parcel;
 import android.os.Parcelable;

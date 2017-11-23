@@ -1,4 +1,4 @@
-package yg.customcontrol.com.SimpleControls.MScrollControl;
+package SimpleControls.MScrollControl;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,8 +6,7 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
-import yg.customcontrol.com.MyTools.CommonTools;
-
+import MyTools.CommonTools;
 
 /**
  * @describe:
