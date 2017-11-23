@@ -14,9 +14,6 @@ import java.util.List;
 import SimpleControls.MScrollControl.DrawerAdapter;
 import SimpleControls.MScrollControl.DrawerContentModel;
 import SimpleControls.MScrollControl.SlideView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * @describe:
@@ -50,9 +47,6 @@ public class TestActivity extends Activity implements SlideView.MoveListen {
         mContent.addView(mSlideView.getSlideContent());
     }
 
-    /**
-     * 初始化侧边栏数据
-     */
     private void initDrawerData(){
         drawerContentModel=new DrawerContentModel();
         drawerContentModel.setIcon(R.mipmap.ic_launcher);
