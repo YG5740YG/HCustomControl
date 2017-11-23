@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.YG5740YG/HCustomControl'
 android {
     compileSdkVersion 26
     defaultConfig {
