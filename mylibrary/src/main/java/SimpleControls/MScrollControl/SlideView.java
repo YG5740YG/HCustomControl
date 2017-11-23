@@ -3,6 +3,7 @@ package SimpleControls.MScrollControl;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.os.Handler;
+import android.support.v4.content.res.ResourcesCompat;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import MyTools.CommonTools;
+import MyTools.ImageLoader;
 import yg.customcontrol.com.mylibrary.R;
 
 
@@ -62,8 +64,8 @@ public class SlideView implements DragLinearlayout.MoveListen {
         },500);
         initBottomLayoutPosition();
     }
-    public void setTipImage(){
-
+    public void setTipImage(int image){
+        arrowImg.setImageResource(image);
     }
     private void findView() {
         mTopView=(LinearLayout)mContentView.findViewById(R.id.top_View);
@@ -71,7 +73,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
         mBottomView=(LinearLayout)mContentView.findViewById(R.id.bottom_view_content);
         mBottomDragLayout=(DragLinearlayout)mContentView.findViewById(R.id.layout_bottom_content);
         mArrowContent=(LinearLayout)mContentView.findViewById(R.id.arrow_content);
-        arrowImg=(ImageView)mContentView.findViewById(R.id.express_arrow_img);
+        arrowImg=(ImageView)mContentView.findViewById(R.id.arrow_img);
         mSlideContent=(LinearLayout) mContentView.findViewById(R.id.slide_content);
         mArrowContent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,7 +230,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
         mNowMoveHeight = nowMoveHeight;
         int moveUp = mBottomLayoutTop - Math.abs(mNowMoveHeight);
         int moveDown = Math.abs(mNowMoveHeight);
-        if (mNowMoveHeight < mLastMoveHeight) {//Up
+        if (mNowMoveHeight < mLastMoveHeight) {
             setOpacity(moveUp);
         } else {
             setOpacity(moveDown);
@@ -240,7 +242,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
         if (moveListen != null) {
             moveListen.motionUpListen();
         }
-        if (mNowMoveHeight <= mLastMoveHeight && isFold) {//Up
+        if (mNowMoveHeight <= mLastMoveHeight && isFold) {
             mNowMoveHeight=mNowMoveHeight- CommonTools.dpToPx(35,mContext.getResources());
             handler.postDelayed(runnable, 0);
         } else {
