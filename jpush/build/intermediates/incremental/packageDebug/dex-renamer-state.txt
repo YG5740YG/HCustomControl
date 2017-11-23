@@ -1,7 +1,0 @@
-#Mon Jun 12 10:46:14 CST 2017
-base.0=E\:\\work\\jpush\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_22a37a8327b6f1959de4f67a0c65c5832f75e5c5
-renamed.1=classes.dex
-renamed.0=classes2.dex
-file.1=E\:\\work\\jpush\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_8feb8ac3f2540eb56d1fe5a07b3b9d3005e6e33e\\classes.dex
-base.1=E\:\\work\\jpush\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_8feb8ac3f2540eb56d1fe5a07b3b9d3005e6e33e
-file.0=E\:\\work\\jpush\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_22a37a8327b6f1959de4f67a0c65c5832f75e5c5\\classes.dex

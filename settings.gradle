@@ -1,2 +1,1 @@
-include ':app', ':baselibrary', ':baseres','mytest','multi-image-selector','CanlendarView'
-//,'jpush'
+include ':app'
