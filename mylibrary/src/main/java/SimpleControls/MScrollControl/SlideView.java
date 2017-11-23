@@ -62,6 +62,9 @@ public class SlideView implements DragLinearlayout.MoveListen {
         },500);
         initBottomLayoutPosition();
     }
+    public void setTipImage(){
+
+    }
     private void findView() {
         mTopView=(LinearLayout)mContentView.findViewById(R.id.top_View);
         mMiddleView=(LinearLayout)mContentView.findViewById(R.id.middle_view);
