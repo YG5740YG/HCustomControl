@@ -3,6 +3,7 @@ package SimpleControls.MScrollControl;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
@@ -16,6 +17,7 @@ import MyTools.CommonTools;
 public class DragLinearlayout extends LinearLayout {
     private MoveListen moveListen;
     private int lastX,lastY,screenWidth,screenHeight,totalMoveHeight=0,starY;
+    private int mNowBottom=0,mLastBottom;
     private int mNowMoveHeight=0,mLastMoveHeight=0;
     private long startTime=0,endTIme=0;
     boolean mHasUpListen=false;
@@ -84,10 +86,15 @@ public class DragLinearlayout extends LinearLayout {
                 if(mLastMoveHeight!=mNowMoveHeight){
                     mLastMoveHeight=mNowMoveHeight;
                 }
+                if(mNowBottom!=mLastBottom){
+                    mLastBottom=mNowBottom;
+                }
+                mNowBottom=bottom;
+                Log.d("bottom=========",bottom+"=="+top);
                 mNowMoveHeight=totalMoveHeight;
                 if (endTIme-startTime>80 && mNowMoveHeight!=mLastMoveHeight) {
                     this.layout(left, top, right, bottom);
-                    if (moveListen != null) {
+                    if (moveListen != null && mLastBottom!=mNowBottom) {
                         moveListen.motionMoveListen(mNowMoveHeight,mLastMoveHeight);
                     }
                 }

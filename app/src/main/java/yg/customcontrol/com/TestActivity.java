@@ -34,7 +34,7 @@ public class TestActivity extends Activity implements SlideView.MoveListen {
         setContentView(R.layout.layout_slide_main);
         mContent=(LinearLayout)findViewById(R.id.content);
         initDrawerData();
-        mSlideView=new SlideView(getApplicationContext(),150);
+        mSlideView=new SlideView(getApplicationContext(),200);
         mSlideView.setMoveListen(this);
         View viewSlideBottom= LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_bottom_item,null);
         View viewSlideMiddle= LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_middle_item,null);
