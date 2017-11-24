@@ -83,7 +83,7 @@
             android:layout_height="20dp"
             android:gravity="center">
             <ImageView
-                android:id="@+id/express_arrow_img"
+                android:id="@+id/arrow_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
