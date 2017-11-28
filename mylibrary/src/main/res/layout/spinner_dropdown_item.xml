@@ -16,7 +16,8 @@
             android:layout_height="25dp"
             android:src="@mipmap/ic_launcher"
             android:layout_marginLeft="8dp"/>
-        <CheckedTextView android:id="@+id/spinner_dropdown_item"
+        <me.grantland.widget.AutofitTextView
+            android:id="@+id/spinner_dropdown_item"
                          android:singleLine="true"
                          android:layout_width="match_parent"
                          android:layout_height="wrap_content"

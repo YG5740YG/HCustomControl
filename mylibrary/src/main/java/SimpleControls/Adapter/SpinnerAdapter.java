@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import SimpleControls.Model.BaseModel;
+import me.grantland.widget.AutofitTextView;
 import yg.customcontrol.com.mylibrary.R;
 
 /**
@@ -64,7 +65,7 @@ public class SpinnerAdapter extends ArrayAdapter {
     public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater1 = LayoutInflater.from(mContext);
         convertView = layoutInflater1.inflate(R.layout.spinner_dropdown_item, null);
-        CheckedTextView itemTextView = (CheckedTextView) convertView
+        AutofitTextView itemTextView = (AutofitTextView) convertView
                 .findViewById(R.id.spinner_dropdown_item);
         ImageView itemImageView=(ImageView)convertView.findViewById(R.id.item_image);
         if (convertView != null) {
@@ -98,7 +99,7 @@ public class SpinnerAdapter extends ArrayAdapter {
         LayoutInflater layoutInflater = LayoutInflater.from(mContext);
         view = layoutInflater.inflate(R.layout.spinner_item, null);
         if (view != null) {
-                CheckedTextView itemTextView = (CheckedTextView) view.findViewById(R.id.item_textview);
+                AutofitTextView itemTextView = (AutofitTextView) view.findViewById(R.id.item_textview);
                 ImageView itemImageView=(ImageView)view.findViewById(R.id.item_image);
                 itemTextView.setText(mQueryPrintSearchTypeModels.get(position).getType());
                 mSelectIndex = mQueryPrintSearchTypeModels.get(position).getIndex();

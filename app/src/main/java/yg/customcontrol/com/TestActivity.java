@@ -62,7 +62,7 @@ public class TestActivity extends Activity implements SlideView.MoveListen, MSpi
         lists.add(R.mipmap.e3);
         lists.add(R.mipmap.e4);
         int titleImage=R.mipmap.e5;
-//        mSpinner.setAdapter(indexs,0);
+        mSpinner.setAdapter(indexs,0);
 //        mSpinner.setAdapter(indexs,1);
 //        mSpinner.setAdapter(indexs,2);
 //        mSpinner.setAdapter(indexs,3);
