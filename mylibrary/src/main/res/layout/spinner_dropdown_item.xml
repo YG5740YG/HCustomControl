@@ -4,15 +4,27 @@
               android:layout_width="match_parent"
               android:orientation="vertical"
     >
-    <CheckedTextView android:id="@+id/spinner_dropdown_item"
-                     style="@style/spinner_item_style"
-                     android:singleLine="true"
-                     android:layout_width="match_parent"
-                     android:layout_height="wrap_content"
-                     android:padding="8dp"
-                     android:ellipsize="marquee"
-                     android:textSize="12sp"
-                     android:textColor="@color/main_text"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_height="wrap_content"
+                  android:layout_width="match_parent"
+                  style="@style/spinner_item_style"
+                  android:orientation="horizontal"
+                  android:gravity="left|center">
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginLeft="8dp"/>
+        <CheckedTextView android:id="@+id/spinner_dropdown_item"
+                         android:singleLine="true"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:padding="8dp"
+                         android:ellipsize="marquee"
+                         android:textSize="12sp"
+                         android:textColor="@color/main_text"/>
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"

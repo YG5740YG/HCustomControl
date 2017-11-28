@@ -2,6 +2,7 @@ package SimpleControls.MSpinner;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.IntRange;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,10 +25,10 @@ import yg.customcontrol.com.mylibrary.R;
 public class MSpinner extends Spinner {
     private List<String> mDatas;
     private Context mContext;
-    BaseModel queryBasePrintSearchTypeModel;
     private List<BaseModel> mQueryPrintSearchTypeModels=new ArrayList<>();
     SpinnerAdapter mSpinnerAdapter;
     ClickItemlisten mClickItemListen;
+    int mType=-1;
     public MSpinner(Context context) {
         super(context);
     }
@@ -40,14 +41,18 @@ public class MSpinner extends Spinner {
         super(context, attrs);
         mContext=context;
     }
-    public void setAdapter(List<String> datas, int type){
+    public MSpinner setAdapter(List<String> datas,@IntRange(from = 0,to = 3) int type){
+        mType=type;
         this.mDatas=datas;
         for (int i=0;i<mDatas.size();i++){
             BaseModel queryPrintSearchTypeModel=new BaseModel(i,mDatas.get(i));
             mQueryPrintSearchTypeModels.add(queryPrintSearchTypeModel);
         }
         mSpinnerAdapter=new SpinnerAdapter(mContext, R.layout.spinner_item,mQueryPrintSearchTypeModels);
-        mSpinnerAdapter.setType(1);
+        mSpinnerAdapter.setValue(type);
+        if(type==3){
+            this.setBackgroundResource(R.drawable.main_item_background);
+        }
         this.setAdapter(mSpinnerAdapter);
         this.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -63,6 +68,18 @@ public class MSpinner extends Spinner {
                 }
             }
         });
+        return this;
+    }
+    public MSpinner setImageList(List<Integer>imageList){
+        if(mType!=-1&&imageList.size()>0){
+            mSpinnerAdapter.setImageList(imageList);
+        }
+        return this;
+    }
+    public void setTitleImage(int titleImage){
+        if(mType!=-1&&titleImage>0) {
+            mSpinnerAdapter.setTitleImage(titleImage);
+        }
     }
     public interface ClickItemlisten{
         void setClickItem(int index);

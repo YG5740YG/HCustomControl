@@ -2,11 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+    android:background="@color/main_blue">
     <LinearLayout
         android:id="@+id/content"
+        android:layout_above="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/main_item_background">
+    <SimpleControls.MSpinner.MSpinner
+        android:id="@+id/spinner"
+        android:layout_below="@+id/content"
+        android:layout_width="110dp"
+        android:layout_height="37dp"
+        android:spinnerMode="dropdown"
+        android:animationCache="true"
+        android:dropDownWidth="110dp"
+        android:dropDownVerticalOffset="36dp">
+    </SimpleControls.MSpinner.MSpinner>
     </LinearLayout>
 </LinearLayout>
