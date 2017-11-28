@@ -5,4 +5,68 @@
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
     <color name="black">#50000000</color>
+
+    <color name="main_backgound_btn">#4f4f65</color>
+    <color name="main_backgound_btn_half">#504f4f65</color>
+    <color name="main_backgound_content">#d2d2d2</color>
+    <color name="main_strok">#E2E2E2</color>
+    <color name="main_blue">#228cbf</color>
+    <color name="main_blue_tip">#4a90e2</color>
+    <color name="main_blue_button_select">#18719C</color>
+    <color name="main_gray">#6a6a80</color>
+    <color name="main_gray_eight">#808080</color>
+    <color name="main_gray_nine">#9b9b9b</color>
+    <color name="main_text">#757575</color>
+    <color name="main_text_red">#eb3336</color>
+
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="frameworkBackground">#F1F2F4</color>
+
+    <color name="textRegistered">#C0C0C0</color>
+    <color name="themeColor">#34A84F</color>
+
+    <color name="textTitle">#2E2E2E</color>
+    <color name="textTitleSecondary">#3f3f3f</color>
+    <color name="textMain">#5E5E5E</color>
+    <color name="textRed">#F25719</color>
+    <color name="textSecondary">#999999</color>
+    <color name="textHint">#bbbbbb</color>
+    <color name="textGrey">#A1A1A1</color>
+    <color name="textWhite">#FFFFFF</color>
+    <color name="textBlack">#000000</color>
+    <color name="textGreen">#34A84F</color>
+    <color name="textBlue">#007AFF</color>
+    <color name="textDriverInfo">#505050</color>
+
+    <color name="dialogBgOverlay">#60000000</color>
+    <color name="dialogItemBg">#FFFFFF</color>
+    <color name="dialogItemClickBg">#EEEEEE</color>
+    <color name="dialogItemBorderSelect">#31A24F</color>
+    <color name="btnPressColor">#2e9e48</color>
+    <color name="btnPressDisEnabled">#999999</color>
+    <color name="dividerMain">#DADADA</color>
+    <color name="dividerSecond">#E8E8E8</color>
+    <color name="listDivider">#B4B4B4</color>
+    <color name="textCallPhone">#4990E2</color>
+
+    <color name="layoutShadow">#D1D1D1</color>
+    <color name="layoutShadowGrey">#DEDEDE</color>
+    <color name="abnormalHeaderShadow">#80DEDEDE</color>
+    <color name="myToastBg">#C2000000</color>
+    <color name="editTakeKeyBorder">#979797</color>
+
+    <color name="btnGrayColor">#CCCCCC</color>
+
+    <!--pickerView 颜色-->
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+    <color name="pickerview_timebtn_nor">#057dff</color>
+    <color name="pickerview_bg_topbar">#f5f5f5</color>
+
+    <color name="pickerview_topbar_title">#000000</color>
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+    <color name="pickerview_bgColor_overlay">#60000000</color>
+    <color name="pickerview_bgColor_default">#FFFFFFFF</color>
+    <color name="nullColor">#00000000</color>
 </resources>
