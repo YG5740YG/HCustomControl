@@ -40,6 +40,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
     private int mMoveHeight=0;
     private MoveListen moveListen;
     private int mTopValue=200;
+    private int delaye=10;
     public interface MoveListen{
         void motionMoveListen(int nowMoveHeight);
         void motionUpListen();
@@ -66,6 +67,9 @@ public class SlideView implements DragLinearlayout.MoveListen {
     }
     public void setTipImage(int image){
         arrowImg.setImageResource(image);
+    }
+    public void setDelaye(int delayeValue){
+        delaye=delayeValue;
     }
     private void findView() {
         mTopView=(LinearLayout)mContentView.findViewById(R.id.top_View);
@@ -145,7 +149,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
         }
     }
     public void onDestroy(){
-        handler.postDelayed(runnable, 10);
+        handler.postDelayed(runnable, delaye);
     }
     public void setMoveHeight(int moveHeight){
         this.mMoveHeight=moveHeight;
@@ -174,7 +178,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
                     setOpacity(moveUp);
                     setMoveHeight(moveUp);
                     handler.removeCallbacks(this);
-                    handler.postDelayed(this, 10);
+                    handler.postDelayed(this, delaye);
                 } else {
                     rotateArrow(isFold);
                     isFold=false;
@@ -205,7 +209,7 @@ public class SlideView implements DragLinearlayout.MoveListen {
                     setOpacity(moveDown);
                     setMoveHeight(moveDown);
                     handler.removeCallbacks(this);
-                    handler.postDelayed(this, 10);
+                    handler.postDelayed(this, delaye);
                 } else {
                     rotateArrow(isFold);
                     isFold=true;

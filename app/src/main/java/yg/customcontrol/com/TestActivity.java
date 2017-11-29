@@ -35,20 +35,20 @@ public class TestActivity extends Activity implements SlideView.MoveListen, MSpi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_slide_main);
         mContent=(LinearLayout)findViewById(R.id.content);
-        mSpinner=(MSpinner)findViewById(R.id.spinner);
-        initSpinner();
-//        initDrawerData();
-//        mSlideView=new SlideView(getApplicationContext(),200);
-//        mSlideView.setMoveListen(this);
-//        View viewSlideBottom= LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_bottom_item,null);
-//        View viewSlideMiddle= LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_middle_item,null);
-//        mSlideView.getBottomView().addView(viewSlideBottom);
-//        mSlideView.getMiddleVIew().addView(viewSlideMiddle);
-//        mRecycleView=(RecyclerView)viewSlideBottom.findViewById(R.id.recyclerview);
-//        mRecycleView.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
-//        mDrawerAdapter=new DrawerAdapter(getApplicationContext(),drawerContentModelList,false);
-//        mRecycleView.setAdapter(mDrawerAdapter);
-//        mContent.addView(mSlideView.getSlideContent());
+//        mSpinner=(MSpinner)findViewById(R.id.spinner);
+//        initSpinner();
+        initDrawerData();
+        mSlideView=new SlideView(getApplicationContext(),200);
+        mSlideView.setMoveListen(this);
+        View viewSlideBottom= LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_bottom_item,null);
+        View viewSlideMiddle= LayoutInflater.from(getApplicationContext()).inflate(R.layout.slide_middle_item,null);
+        mSlideView.getBottomView().addView(viewSlideBottom);
+        mSlideView.getMiddleVIew().addView(viewSlideMiddle);
+        mRecycleView=(RecyclerView)viewSlideBottom.findViewById(R.id.recyclerview);
+        mRecycleView.setLayoutManager(new StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL));
+        mDrawerAdapter=new DrawerAdapter(getApplicationContext(),drawerContentModelList,false);
+        mRecycleView.setAdapter(mDrawerAdapter);
+        mContent.addView(mSlideView.getSlideContent());
     }
     private void initSpinner(){
         final List<String>indexs=new ArrayList<>();
