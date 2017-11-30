@@ -51,7 +51,7 @@ public class MSpinner extends Spinner {
         mSpinnerAdapter=new SpinnerAdapter(mContext, R.layout.spinner_item,mQueryPrintSearchTypeModels);
         mSpinnerAdapter.setValue(type);
         if(type==3){
-            this.setBackgroundResource(R.drawable.main_item_background);
+            this.setBackgroundResource(R.drawable.item_background);
         }
         this.setAdapter(mSpinnerAdapter);
         this.setOnItemSelectedListener(new OnItemSelectedListener() {
