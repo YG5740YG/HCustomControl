@@ -24,7 +24,7 @@
         <!--<activity android:name=".MBluetooth.BluetoothPrintActivity">-->
         <!--<activity android:name=".TestActivity">-->
         <!--<activity android:name=".Print.PrintTest">-->
-        <activity android:name="yg.customcontrol.com.TestActivity">
+        <activity android:name=".PrintTest">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
