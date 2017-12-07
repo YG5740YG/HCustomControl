@@ -3,10 +3,8 @@ package yg.customcontrol.com;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +28,21 @@ public class TestActivity extends Activity implements SlideView.MoveListen, MSpi
     List<DrawerContentModel> drawerContentModelList=new ArrayList<>();
     SlideView mSlideView;
     MSpinner mSpinner;
+    TextView mBlueTooth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_slide_main);
         mContent=(LinearLayout)findViewById(R.id.content);
         mSpinner=(MSpinner)findViewById(R.id.spinner);
+//        mBlueTooth=(TextView)findViewById(R.id.blue_tooth);
+//        mBlueTooth.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent=new Intent(this, BluetoothPrint.class);
+//                startActivity(intent);
+//            }
+//        });
         initSpinner();
 //        initDrawerData();
 //        mSlideView=new SlideView(getApplicationContext(),200);

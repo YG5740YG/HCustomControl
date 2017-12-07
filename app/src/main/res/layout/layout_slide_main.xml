@@ -26,5 +26,13 @@
         android:dropDownWidth="110dp"
         android:dropDownVerticalOffset="36dp">
     </SimpleControls.MSpinner.MSpinner>
+        <TextView
+            android:id="@+id/blue_tooth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:background="@drawable/item_background_strok"
+            android:text="蓝牙"/>
     </LinearLayout>
 </LinearLayout>

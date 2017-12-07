@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,14 @@ public class DrawerAdapter extends RecyclerView.Adapter{
     private boolean mShowAll;
     private int mTextAlpha=255;
     private View view;
+    ItemClickListen mItemListen;
+
+    public interface ItemClickListen{
+        void setItemListen(int position);
+    }
+    public void setItemClickListen(ItemClickListen itemClickListen){
+        mItemListen=itemClickListen;
+    }
     public DrawerAdapter(Context context, List<DrawerContentModel> drawerContentModels, boolean showAll){
         this.mContext=context;
         this.drawerContentModels=drawerContentModels;
@@ -51,6 +60,7 @@ public class DrawerAdapter extends RecyclerView.Adapter{
             @Override
             public void onClick(View view) {
                 itemClik(position);
+                mItemListen.setItemListen(position);
             }
         });
     }
@@ -74,9 +84,15 @@ public class DrawerAdapter extends RecyclerView.Adapter{
         notifyDataSetChanged();
     }
 
+    public void refresh(List<DrawerContentModel>drawerContentModels){
+        this.drawerContentModels=drawerContentModels;
+        notifyDataSetChanged();
+    }
+
     private void itemClik(int position){
         switch (position){
             case 0:
+                Log.d("gg=====test==","gg");
                 break;
             case 1:
                 break;

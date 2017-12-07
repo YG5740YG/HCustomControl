@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Library</string>
+    <string name="pair_printer_String">历史配对打印机</string>
+    <string name="bluetooth_String">附近蓝牙</string>
 </resources>
